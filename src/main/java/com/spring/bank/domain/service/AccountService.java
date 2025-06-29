@@ -5,11 +5,14 @@ import com.spring.bank.common.exception.InsufficientFundsException;
 import com.spring.bank.common.utils.AccountNumberGenerator;
 import com.spring.bank.domain.dto.account.DepositDTO;
 import com.spring.bank.domain.dto.account.WithdrawDTO;
+import com.spring.bank.domain.dto.transaction.CreateTransactionDTO;
 import com.spring.bank.domain.enums.account.AccountStatusEnum;
 import com.spring.bank.domain.enums.account.AccountTypeEnum;
+import com.spring.bank.domain.enums.transaction.TransactionTypeEnum;
 import com.spring.bank.domain.model.Account;
 import com.spring.bank.domain.model.User;
 import com.spring.bank.domain.repository.AccountRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +27,8 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountNumberGenerator accountNumberGenerator;
+    private final TransactionService transactionService;
 
-//    Open account
     public Account openAccount(User user) {
         Account account = new Account();
         account.setBalance(BigDecimal.ZERO);
@@ -34,6 +37,7 @@ public class AccountService {
         account.setStatus(AccountStatusEnum.ACTIVE);
 
         String generatedNumber;
+
         do {
             generatedNumber = accountNumberGenerator.generateAccount();
         } while (accountRepository.existsByNumber(generatedNumber));
@@ -43,7 +47,7 @@ public class AccountService {
         return this.accountRepository.save(account);
     }
 
-//    Get account details
+
     public Account getAccountByNumber(String accountNumber) throws AccountNotFoundException {
         return this.accountRepository.findByNumber(accountNumber).orElseThrow(() -> new AccountNotFoundException(
                 String.format("Account with NUMBER %s not found", accountNumber)
@@ -54,16 +58,25 @@ public class AccountService {
         return this.getById(accountId);
     }
 
-//    Adjust balance (deposit/withdraw)
+    @Transactional
     public Account deposit(DepositDTO data) throws AccountNotFoundException {
         Account account = this.getById(data.accountId());
 
         account.setBalance(account.getBalance().add(data.amount()));
-        // CALL TRANSACTION SERVICE TO MAKE THE DEPOSIT
+
+        this.transactionService.create(
+                new CreateTransactionDTO(
+                        account,
+                        TransactionTypeEnum.DEPOSIT,
+                        data.amount(),
+                        "DEPOSIT"
+                )
+        );
 
         return this.accountRepository.save(account);
     }
 
+    @Transactional
     public Account withdraw(WithdrawDTO data) throws AccountNotFoundException, InsufficientFundsException {
         Account account = this.getById(data.accountId());
 
@@ -72,7 +85,15 @@ public class AccountService {
         }
 
         account.setBalance(account.getBalance().subtract(data.amount()));
-        // CALL TRANSACTION SERVICE TO MAKE THE WITHDRAW
+
+        this.transactionService.create(
+                new CreateTransactionDTO(
+                        account,
+                        TransactionTypeEnum.WITHDRAW,
+                        data.amount(),
+                        "WITHDRAW"
+                )
+        );
 
         return this.accountRepository.save(account);
     }
