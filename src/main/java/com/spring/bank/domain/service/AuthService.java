@@ -36,7 +36,7 @@ public class AuthService {
                 String.format("User with DOCUMENT %s not found", data.document())
         ));
 
-        if(!passwordEncrypt.verifyPassword(user.getPassword(), data.password())) {
+        if (!passwordEncrypt.verifyPassword(user.getPassword(), data.password())) {
             throw new InvalidPasswordException("Invalid password");
         }
 

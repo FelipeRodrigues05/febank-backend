@@ -1,9 +1,10 @@
 package com.spring.bank.domain.http.controller;
 
 import com.spring.bank.domain.dto.user.UpdateUserDTO;
+import com.spring.bank.domain.dto.user.UserResponseDTO;
+import com.spring.bank.domain.model.User;
 import com.spring.bank.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,9 +19,9 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateUser(@Validated @RequestBody UpdateUserDTO body, @RequestParam UUID id) {
-        this.userService.update(id, body);
+    public ResponseEntity<UserResponseDTO> updateUser(@Validated @RequestBody UpdateUserDTO body, @RequestParam UUID id) {
+        User user = this.userService.update(id, body);
 
-        return ResponseEntity.status(HttpStatus.OK).body("User updated successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new UserResponseDTO(user));
     }
 }

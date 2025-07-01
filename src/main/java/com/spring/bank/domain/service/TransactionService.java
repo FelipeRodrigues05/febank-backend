@@ -30,6 +30,6 @@ public class TransactionService {
     }
 
     public List<Transaction> listByAccount(UUID id) {
-        return this.transactionRepository.findAllByAccount(id);
+        return this.transactionRepository.findAllByAccountId(id);
     }
 }

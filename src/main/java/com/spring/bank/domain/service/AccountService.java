@@ -8,16 +8,12 @@ import com.spring.bank.domain.dto.account.OpenAccountDTO;
 import com.spring.bank.domain.dto.account.WithdrawDTO;
 import com.spring.bank.domain.dto.transaction.CreateTransactionDTO;
 import com.spring.bank.domain.enums.account.AccountStatusEnum;
-import com.spring.bank.domain.enums.account.AccountTypeEnum;
 import com.spring.bank.domain.enums.transaction.TransactionTypeEnum;
 import com.spring.bank.domain.model.Account;
-import com.spring.bank.domain.model.User;
 import com.spring.bank.domain.repository.AccountRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.util.UUID;

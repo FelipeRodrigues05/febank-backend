@@ -1,5 +1,6 @@
 package com.spring.bank.domain.http.controller;
 
+import com.spring.bank.domain.dto.account.AccountResponseDTO;
 import com.spring.bank.domain.dto.account.DepositDTO;
 import com.spring.bank.domain.dto.account.OpenAccountDTO;
 import com.spring.bank.domain.dto.account.WithdrawDTO;
@@ -19,34 +20,30 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/open")
-    public ResponseEntity<String> createAccount(@Validated @RequestBody OpenAccountDTO body)
-    {
-        this.accountService.openAccount(body);
+    public ResponseEntity<AccountResponseDTO> createAccount(@Validated @RequestBody OpenAccountDTO body) {
+        Account account = this.accountService.openAccount(body);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Account created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new AccountResponseDTO(account));
     }
 
     @GetMapping("/{number}")
-    public ResponseEntity<Account> getAccount(@RequestParam String number)
-    {
+    public ResponseEntity<AccountResponseDTO> getAccount(@RequestParam String number) {
         Account account = this.accountService.getAccountByNumber(number);
 
-        return ResponseEntity.status(HttpStatus.OK).body(account);
+        return ResponseEntity.status(HttpStatus.OK).body(new AccountResponseDTO(account));
     }
 
     @PostMapping("/deposit")
-    public ResponseEntity<String> deposit(@Validated @RequestBody DepositDTO body)
-    {
-        this.accountService.deposit(body);
+    public ResponseEntity<AccountResponseDTO> deposit(@Validated @RequestBody DepositDTO body) {
+        Account account = this.accountService.deposit(body);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Successfully deposited value");
+        return ResponseEntity.status(HttpStatus.OK).body(new AccountResponseDTO(account));
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<String> withdraw(@Validated @RequestBody WithdrawDTO body)
-    {
-        this.accountService.withdraw(body);
+    public ResponseEntity<AccountResponseDTO> withdraw(@Validated @RequestBody WithdrawDTO body) {
+        Account account = this.accountService.withdraw(body);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Successfully withdrawed value");
+        return ResponseEntity.status(HttpStatus.OK).body(new AccountResponseDTO(account));
     }
 }

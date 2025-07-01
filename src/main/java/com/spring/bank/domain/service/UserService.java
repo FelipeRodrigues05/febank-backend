@@ -36,10 +36,12 @@ public class UserService {
     public User update(UUID id, UpdateUserDTO data) throws UserNotFoundException, EmailAlreadyExistsException {
         User user = this.getById(id);
 
-        if(data.name() != null) user.setName(data.name());
-        if(data.password() != null && !data.password().isBlank()) user.setPassword(passwordEncrypt.hashPassword(data.password()));
-        if(data.email() != null && !user.getEmail().equals(data.email())) {
-            if(userRepository.existsByEmail(data.email())) throw new EmailAlreadyExistsException("User with this EMAIL already exists");
+        if (data.name() != null) user.setName(data.name());
+        if (data.password() != null && !data.password().isBlank())
+            user.setPassword(passwordEncrypt.hashPassword(data.password()));
+        if (data.email() != null && !user.getEmail().equals(data.email())) {
+            if (userRepository.existsByEmail(data.email()))
+                throw new EmailAlreadyExistsException("User with this EMAIL already exists");
 
             user.setEmail(data.email());
         }
