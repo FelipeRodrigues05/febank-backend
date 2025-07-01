@@ -46,7 +46,7 @@ public class TransferService {
     }
 
     private void validateFunds(BigDecimal accountBalance, BigDecimal amount) throws InsufficientFundsException {
-        if(accountBalance.compareTo(amount) < 0) {
+        if (accountBalance.compareTo(amount) < 0) {
             throw new InsufficientFundsException("Insufficient Funds");
         }
     }

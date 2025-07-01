@@ -4,19 +4,16 @@ import com.spring.bank.common.exception.AccountNotFoundException;
 import com.spring.bank.common.exception.InsufficientFundsException;
 import com.spring.bank.common.utils.AccountNumberGenerator;
 import com.spring.bank.domain.dto.account.DepositDTO;
+import com.spring.bank.domain.dto.account.OpenAccountDTO;
 import com.spring.bank.domain.dto.account.WithdrawDTO;
 import com.spring.bank.domain.dto.transaction.CreateTransactionDTO;
 import com.spring.bank.domain.enums.account.AccountStatusEnum;
-import com.spring.bank.domain.enums.account.AccountTypeEnum;
 import com.spring.bank.domain.enums.transaction.TransactionTypeEnum;
 import com.spring.bank.domain.model.Account;
-import com.spring.bank.domain.model.User;
 import com.spring.bank.domain.repository.AccountRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -29,11 +26,11 @@ public class AccountService {
     private final AccountNumberGenerator accountNumberGenerator;
     private final TransactionService transactionService;
 
-    public Account openAccount(User user) {
+    public Account openAccount(OpenAccountDTO data) {
         Account account = new Account();
         account.setBalance(BigDecimal.ZERO);
-        account.setUser(user);
-        account.setType(AccountTypeEnum.CHECKING);
+        account.setUser(data.user());
+        account.setType(data.type());
         account.setStatus(AccountStatusEnum.ACTIVE);
 
         String generatedNumber;
@@ -47,15 +44,10 @@ public class AccountService {
         return this.accountRepository.save(account);
     }
 
-
     public Account getAccountByNumber(String accountNumber) throws AccountNotFoundException {
         return this.accountRepository.findByNumber(accountNumber).orElseThrow(() -> new AccountNotFoundException(
                 String.format("Account with NUMBER %s not found", accountNumber)
         ));
-    }
-
-    public Account getAccountById(UUID accountId) throws AccountNotFoundException {
-        return this.getById(accountId);
     }
 
     @Transactional
@@ -98,7 +90,7 @@ public class AccountService {
         return this.accountRepository.save(account);
     }
 
-    private Account getById(UUID id) throws AccountNotFoundException{
+    private Account getById(UUID id) throws AccountNotFoundException {
         return this.accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(
                 String.format("Account with ID %s not found", id)
         ));
