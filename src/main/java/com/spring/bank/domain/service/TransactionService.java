@@ -4,6 +4,7 @@ import com.spring.bank.domain.dto.transaction.CreateTransactionDTO;
 import com.spring.bank.domain.model.Transaction;
 import com.spring.bank.domain.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class TransactionService {
 
     private TransactionRepository transactionRepository;

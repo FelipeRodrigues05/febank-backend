@@ -23,13 +23,13 @@ public class AuthController {
     public ResponseEntity<String> register(@Validated @RequestBody RegisterDTO body) {
         this.authService.register(body);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Validated @RequestBody LoginDTO body) {
         this.authService.login(body);
 
-        return ResponseEntity.status(HttpStatus.OK).body("User logged successfully");
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
