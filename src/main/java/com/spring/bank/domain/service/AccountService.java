@@ -12,6 +12,7 @@ import com.spring.bank.domain.enums.transaction.TransactionTypeEnum;
 import com.spring.bank.domain.model.Account;
 import com.spring.bank.domain.repository.AccountRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AccountService {
 
     private final AccountRepository accountRepository;

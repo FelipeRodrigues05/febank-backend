@@ -6,13 +6,14 @@ import com.spring.bank.domain.dto.transfer.CreateTransferDTO;
 import com.spring.bank.domain.enums.transaction.TransactionTypeEnum;
 import com.spring.bank.domain.model.Transfer;
 import com.spring.bank.domain.repository.TransferRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class TransferService {
     private TransferRepository transferRepository;
     private TransactionService transactionService;

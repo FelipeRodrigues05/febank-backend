@@ -2,13 +2,13 @@ package com.spring.bank.domain.service;
 
 import com.spring.bank.common.exception.EmailAlreadyExistsException;
 import com.spring.bank.common.exception.UserNotFoundException;
-import com.spring.bank.common.utils.PasswordEncrypt;
 import com.spring.bank.domain.dto.user.RegisterDTO;
 import com.spring.bank.domain.dto.user.UpdateUserDTO;
 import com.spring.bank.domain.model.User;
 import com.spring.bank.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,19 +17,19 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private UserRepository userRepository;
-    private PasswordEncrypt passwordEncrypt;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public User create(RegisterDTO data) {
+    public void create(RegisterDTO data) {
         User user = new User();
         user.setName(data.name());
         user.setEmail(data.email());
         user.setDocument(data.document());
-        user.setPassword(passwordEncrypt.hashPassword(data.password()));
+        user.setPassword(passwordEncoder.encode(data.password()));
         user.setCreatedAt(LocalDateTime.now());
 
-        return this.userRepository.save(user);
+        this.userRepository.save(user);
     }
 
     @Transactional
@@ -38,7 +38,7 @@ public class UserService {
 
         if (data.name() != null) user.setName(data.name());
         if (data.password() != null && !data.password().isBlank())
-            user.setPassword(passwordEncrypt.hashPassword(data.password()));
+            user.setPassword(passwordEncoder.encode(data.password()));
         if (data.email() != null && !user.getEmail().equals(data.email())) {
             if (userRepository.existsByEmail(data.email()))
                 throw new EmailAlreadyExistsException("User with this EMAIL already exists");
