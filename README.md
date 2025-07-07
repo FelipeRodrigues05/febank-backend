@@ -1,5 +1,11 @@
 # FeBank Backend 🏦
 
+![Java](https://img.shields.io/badge/Java-21-blue?style=flat&logo=java)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5.3-success?style=flat&logo=springboot)
+![License](https://img.shields.io/github/license/FelipeRodrigues05/febank-backend)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-informational?style=flat&logo=mysql)
+![OAuth2](https://img.shields.io/badge/Auth-OAuth2.0-yellow?style=flat&logo=keycloak)
+
 Backend oficial do **FeBank**, um sistema bancário digital criado com foco em segurança, escalabilidade e arquitetura moderna. Desenvolvido com **Java 21**, **Spring Boot**, **OAuth 2.0** (Client Credentials) e **MySQL**.
 
 ---
@@ -73,7 +79,7 @@ Exemplo de token request:
 ## 📬 Endpoints (exemplos)
 
 |Método  |Rota           |	Descrição                         |
-|--------|---------------|------------------------------------|
+|--------|---------------|-----------------------------------|
 |POST    |`/token`       |	Gera token de acesso              |
 |GET     |`/accounts`    |	Lista contas bancárias            |
 |POST    |`/accounts`    |	Cria nova conta                   |
