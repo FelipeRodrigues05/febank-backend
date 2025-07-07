@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TransferService {
-    private TransferRepository transferRepository;
-    private TransactionService transactionService;
+    private final TransferRepository transferRepository;
+    private final TransactionService transactionService;
 
     public Transfer create(CreateTransferDTO data) throws InsufficientFundsException {
         this.validateFunds(data.fromAccount().getBalance(), data.amount());

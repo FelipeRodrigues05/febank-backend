@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AccountService {
 
     private final AccountRepository accountRepository;
