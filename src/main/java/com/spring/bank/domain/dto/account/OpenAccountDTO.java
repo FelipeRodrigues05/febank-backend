@@ -1,10 +1,13 @@
 package com.spring.bank.domain.dto.account;
 
 import com.spring.bank.domain.enums.account.AccountTypeEnum;
-import com.spring.bank.domain.model.User;
+import jakarta.validation.constraints.NotNull;
 
 public record OpenAccountDTO(
-        User user,
+        @NotNull
+        Long userId,
+
+        @NotNull
         AccountTypeEnum type
 ) {
 }

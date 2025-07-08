@@ -10,7 +10,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "transfers")
@@ -19,13 +18,15 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Transfer {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "from_account_id")
     private Account fromAccount;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "to_account_id")
     private Account toAccount;
 
     @Column(precision = 10, scale = 2)

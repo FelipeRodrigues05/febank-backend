@@ -1,6 +1,7 @@
 package com.spring.bank.domain.service;
 
 import com.spring.bank.domain.dto.transaction.CreateTransactionDTO;
+import com.spring.bank.domain.dto.transaction.TransactionResponseDTO;
 import com.spring.bank.domain.model.Transaction;
 import com.spring.bank.domain.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,11 @@ public class TransactionService {
         this.transactionRepository.save(transaction);
     }
 
-    public List<Transaction> listByAccount(UUID id) {
-        return this.transactionRepository.findAllByAccountId(id);
+    public List<TransactionResponseDTO> listByAccount(Long id) {
+        List<Transaction> transactions = this.transactionRepository.findAllByAccountId(id);
+
+        return transactions.stream()
+                .map(TransactionResponseDTO::new)
+                .collect(Collectors.toList());
     }
 }

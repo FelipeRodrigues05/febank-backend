@@ -1,10 +1,14 @@
 package com.spring.bank.domain.dto.account;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public record DepositDTO(
-        UUID accountId,
+        @NotNull
+        Long accountId,
+
+        @NotNull
         BigDecimal amount
 ) {
 }

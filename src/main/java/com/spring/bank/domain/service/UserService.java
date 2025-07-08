@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +20,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void create(RegisterDTO data) {
+    public User create(RegisterDTO data) {
         User user = new User();
         user.setName(data.name());
         user.setEmail(data.email());
@@ -29,11 +28,11 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(data.password()));
         user.setCreatedAt(LocalDateTime.now());
 
-        this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     @Transactional
-    public User update(UUID id, UpdateUserDTO data) throws UserNotFoundException, EmailAlreadyExistsException {
+    public User update(Long id, UpdateUserDTO data) throws UserNotFoundException, EmailAlreadyExistsException {
         User user = this.getById(id);
 
         if (data.name() != null) user.setName(data.name());
@@ -51,7 +50,7 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
-    public User getById(UUID id) throws UserNotFoundException {
+    public User getById(Long id) throws UserNotFoundException {
         return this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(
                 String.format("User with ID %s does not exist", id)
         ));
