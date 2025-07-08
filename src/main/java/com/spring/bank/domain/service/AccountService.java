@@ -10,14 +10,13 @@ import com.spring.bank.domain.dto.transaction.CreateTransactionDTO;
 import com.spring.bank.domain.enums.account.AccountStatusEnum;
 import com.spring.bank.domain.enums.transaction.TransactionTypeEnum;
 import com.spring.bank.domain.model.Account;
+import com.spring.bank.domain.model.User;
 import com.spring.bank.domain.repository.AccountRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +25,14 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountNumberGenerator accountNumberGenerator;
     private final TransactionService transactionService;
+    private final UserService userService;
 
     public Account openAccount(OpenAccountDTO data) {
+        User user = this.userService.getById(data.userId());
+
         Account account = new Account();
         account.setBalance(BigDecimal.ZERO);
-        account.setUser(data.user());
+        account.setUser(user);
         account.setType(data.type());
         account.setStatus(AccountStatusEnum.ACTIVE);
 
@@ -91,7 +93,23 @@ public class AccountService {
         return this.accountRepository.save(account);
     }
 
-    private Account getById(UUID id) throws AccountNotFoundException {
+    public Account addFunds(Long accountId, BigDecimal amount) {
+        Account account = this.getById(accountId);
+
+        account.setBalance(account.getBalance().add(amount));
+
+        return this.accountRepository.save(account);
+    }
+
+    public Account subtractFunds(Long accountId, BigDecimal amount) {
+        Account account = this.getById(accountId);
+
+        account.setBalance(account.getBalance().subtract(amount));
+
+        return this.accountRepository.save(account);
+    }
+
+    public Account getById(Long id) throws AccountNotFoundException {
         return this.accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(
                 String.format("Account with ID %s not found", id)
         ));

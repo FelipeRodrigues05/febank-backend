@@ -1,10 +1,15 @@
 package com.spring.bank.domain.dto.account;
 
+import org.springframework.lang.NonNull;
+
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public record WithdrawDTO(
-        UUID accountId,
+
+        @NonNull
+        Long accountId,
+
+        @NonNull
         BigDecimal amount
 ) {
 }

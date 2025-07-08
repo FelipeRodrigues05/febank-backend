@@ -19,17 +19,17 @@ public class AuthService {
 
     private final UserService userService;
 
-    public void register(RegisterDTO data) throws UserAlreadyHasAccountException {
+    public User register(RegisterDTO data) throws UserAlreadyHasAccountException {
         if (this.userRepository.existsByDocument(data.document())) {
             throw new UserAlreadyHasAccountException(
                     String.format("DOCUMENT %s already exists", data.document())
             );
         }
 
-        userService.create(data);
+        return userService.create(data);
     }
 
-    public void login(LoginDTO data) throws UserNotFoundException, InvalidPasswordException {
+    public User login(LoginDTO data) throws UserNotFoundException, InvalidPasswordException {
         User user = this.userRepository.findByDocument(data.document()).orElseThrow(() -> new UserNotFoundException(
                 String.format("User with DOCUMENT %s not found", data.document())
         ));
@@ -37,5 +37,7 @@ public class AuthService {
         if (!passwordEncoder.matches(data.password(), user.getPassword())) {
             throw new InvalidPasswordException("Invalid password");
         }
+
+        return user;
     }
 }

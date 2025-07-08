@@ -2,7 +2,10 @@ package com.spring.bank.domain.http.controller;
 
 import com.spring.bank.domain.dto.user.LoginDTO;
 import com.spring.bank.domain.dto.user.RegisterDTO;
+import com.spring.bank.domain.dto.user.UserResponseDTO;
+import com.spring.bank.domain.model.User;
 import com.spring.bank.domain.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +23,16 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Validated @RequestBody RegisterDTO body) {
-        this.authService.register(body);
+    public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody RegisterDTO body) {
+        User user = this.authService.register(body);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponseDTO(user));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Validated @RequestBody LoginDTO body) {
-        this.authService.login(body);
+    public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody LoginDTO body) {
+        User user = this.authService.login(body);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new UserResponseDTO(user));
     }
 }

@@ -4,9 +4,9 @@ import com.spring.bank.common.exception.InsufficientFundsException;
 import com.spring.bank.domain.dto.transaction.CreateTransactionDTO;
 import com.spring.bank.domain.dto.transfer.CreateTransferDTO;
 import com.spring.bank.domain.enums.transaction.TransactionTypeEnum;
+import com.spring.bank.domain.model.Account;
 import com.spring.bank.domain.model.Transfer;
 import com.spring.bank.domain.repository.TransferRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +17,26 @@ import java.math.BigDecimal;
 public class TransferService {
     private final TransferRepository transferRepository;
     private final TransactionService transactionService;
+    private final AccountService accountService;
 
     public Transfer create(CreateTransferDTO data) throws InsufficientFundsException {
-        this.validateFunds(data.fromAccount().getBalance(), data.amount());
+        Account fromAccount = this.accountService.getById(data.fromAccount());
+        Account toAccount = this.accountService.getById(data.toAccount());
+
+        this.validateFunds(fromAccount.getBalance(), data.amount());
 
         Transfer transfer = new Transfer();
-        transfer.setFromAccount(data.fromAccount());
-        transfer.setToAccount(data.toAccount());
+        transfer.setFromAccount(fromAccount);
+        transfer.setToAccount(toAccount);
+        transfer.setAmount(data.amount());
+        if(data.description() != null) transfer.setDescription(data.description());
+
+        this.accountService.addFunds(toAccount.getId(), data.amount());
+        this.accountService.subtractFunds(fromAccount.getId(), data.amount());
 
         this.transactionService.create(
                 new CreateTransactionDTO(
-                        data.fromAccount(),
+                        fromAccount,
                         TransactionTypeEnum.DEBIT,
                         data.amount(),
                         data.description()
@@ -36,7 +45,7 @@ public class TransferService {
 
         this.transactionService.create(
                 new CreateTransactionDTO(
-                        data.toAccount(),
+                        toAccount,
                         TransactionTypeEnum.CREDIT,
                         data.amount(),
                         data.description()
