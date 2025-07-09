@@ -10,7 +10,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,7 +29,6 @@ public class AccountController {
     @GetMapping("/{number}")
     public ResponseEntity<AccountResponseDTO> getAccount(@PathVariable("number") String number) {
         Account account = this.accountService.getAccountByNumber(number);
-        System.out.print("Transactions " + account.getTransactions());
 
         return ResponseEntity.status(HttpStatus.OK).body(new AccountResponseDTO(account));
     }

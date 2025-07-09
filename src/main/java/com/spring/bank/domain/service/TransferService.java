@@ -1,8 +1,10 @@
 package com.spring.bank.domain.service;
 
 import com.spring.bank.common.exception.InsufficientFundsException;
+import com.spring.bank.common.exception.InvalidTransferAccountTypeException;
 import com.spring.bank.domain.dto.transaction.CreateTransactionDTO;
 import com.spring.bank.domain.dto.transfer.CreateTransferDTO;
+import com.spring.bank.domain.enums.account.AccountTypeEnum;
 import com.spring.bank.domain.enums.transaction.TransactionTypeEnum;
 import com.spring.bank.domain.model.Account;
 import com.spring.bank.domain.model.Transfer;
@@ -23,34 +25,24 @@ public class TransferService {
         Account fromAccount = this.accountService.getById(data.fromAccount());
         Account toAccount = this.accountService.getById(data.toAccount());
 
+        if(fromAccount.getType() != AccountTypeEnum.CHECKING && toAccount.getType() != AccountTypeEnum.CHECKING) {
+            throw new InvalidTransferAccountTypeException("You can only transfer if the 2 accounts are CHECKING");
+        }
+
         this.validateFunds(fromAccount.getBalance(), data.amount());
 
         Transfer transfer = new Transfer();
         transfer.setFromAccount(fromAccount);
         transfer.setToAccount(toAccount);
         transfer.setAmount(data.amount());
+
         if(data.description() != null) transfer.setDescription(data.description());
 
         this.accountService.addFunds(toAccount.getId(), data.amount());
         this.accountService.subtractFunds(fromAccount.getId(), data.amount());
 
-        this.transactionService.create(
-                new CreateTransactionDTO(
-                        fromAccount,
-                        TransactionTypeEnum.DEBIT,
-                        data.amount(),
-                        data.description()
-                )
-        );
-
-        this.transactionService.create(
-                new CreateTransactionDTO(
-                        toAccount,
-                        TransactionTypeEnum.CREDIT,
-                        data.amount(),
-                        data.description()
-                )
-        );
+        this.createTransaction(fromAccount, TransactionTypeEnum.DEBIT, data.amount(), data.description());
+        this.createTransaction(toAccount, TransactionTypeEnum.CREDIT, data.amount(), data.description());
 
         return this.transferRepository.save(transfer);
     }
@@ -60,4 +52,11 @@ public class TransferService {
             throw new InsufficientFundsException("Insufficient Funds");
         }
     }
+
+    private void createTransaction(Account account, TransactionTypeEnum type, BigDecimal amount, String description) {
+        this.transactionService.create(
+                new CreateTransactionDTO(account, type, amount, description)
+        );
+    }
+
 }

@@ -53,6 +53,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
+    @ExceptionHandler(InvalidTransferAccountTypeException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidTransferAccountTypeException(InvalidTransferAccountTypeException ex, WebRequest request) {
+        ErrorResponseDTO errorResponse = this.generateErrorResponse(HttpStatus.BAD_REQUEST, request, ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     private ErrorResponseDTO generateErrorResponse(HttpStatus httpStatus, WebRequest request, String message) {
         return ErrorResponseDTO.builder()
                 .timestamp(LocalDateTime.now())
