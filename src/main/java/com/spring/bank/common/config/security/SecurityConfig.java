@@ -27,7 +27,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/oauth2/token").permitAll()
+                            auth.requestMatchers("/oauth2/token").permitAll()
+                                .requestMatchers("/actuator/*").permitAll()
                                 .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt())
                 .csrf(AbstractHttpConfigurer::disable).build();
