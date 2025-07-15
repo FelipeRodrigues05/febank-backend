@@ -1,4 +1,4 @@
-package com.spring.bank.domain.infra.security;
+package com.spring.bank.common.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("oauth2/token").permitAll()
+                        auth.requestMatchers("/oauth2/token").permitAll()
                                 .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt())
                 .csrf(AbstractHttpConfigurer::disable).build();
