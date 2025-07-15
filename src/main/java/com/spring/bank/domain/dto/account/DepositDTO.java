@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public record DepositDTO(
         @NotNull
-        Long accountId,
+        Long userId,
 
         @NotNull
         BigDecimal amount
