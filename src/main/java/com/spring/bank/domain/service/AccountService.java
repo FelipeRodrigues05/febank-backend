@@ -51,36 +51,42 @@ public class AccountService {
 
     @Transactional
     public Account deposit(DepositDTO data) throws AccountNotFoundException {
-        Account account = this.getById(data.accountId());
+        Account checkingAccount = this.getFirstByUser(data.userId(), AccountTypeEnum.CHECKING);
+        Account savingsAccount = this.getFirstByUser(data.userId(), AccountTypeEnum.SAVINGS);
 
-        if(account.getType() != AccountTypeEnum.SAVINGS) throw new InvalidTransferAccountTypeException("You can only deposit to a SAVING account");
+        if (checkingAccount.getBalance().compareTo(data.amount()) < 0) {
+            throw new InsufficientFundsException("Insufficient balance for withdrawal.");
+        }
 
-        account.setBalance(account.getBalance().add(data.amount()));
+        checkingAccount.setBalance(checkingAccount.getBalance().subtract(data.amount()));
+        savingsAccount.setBalance(savingsAccount.getBalance().add(data.amount()));
 
         this.transactionService.create(
-                new CreateTransactionDTO(account, TransactionTypeEnum.DEPOSIT, data.amount(), "DEPOSIT")
+                new CreateTransactionDTO(savingsAccount, TransactionTypeEnum.DEPOSIT, data.amount(), "DEPOSIT TO SAVING ACCOUNT")
         );
 
-        return this.accountRepository.save(account);
+        this.accountRepository.save(checkingAccount);
+        return this.accountRepository.save(savingsAccount);
     }
 
     @Transactional
     public Account withdraw(WithdrawDTO data) throws AccountNotFoundException, InsufficientFundsException {
-        Account account = this.getById(data.accountId());
+        Account checkingAccount = this.getFirstByUser(data.userId(), AccountTypeEnum.CHECKING);
+        Account savingsAccount = this.getFirstByUser(data.userId(), AccountTypeEnum.SAVINGS);
 
-        if(account.getType() != AccountTypeEnum.CHECKING)  throw new InvalidTransferAccountTypeException("You can only withdraw to a CHECKING account");
-
-        if (account.getBalance().compareTo(data.amount()) < 0) {
+        if (savingsAccount.getBalance().compareTo(data.amount()) < 0) {
             throw new InsufficientFundsException("Insufficient balance for withdrawal.");
         }
 
-        account.setBalance(account.getBalance().subtract(data.amount()));
+        checkingAccount.setBalance(checkingAccount.getBalance().add(data.amount()));
+        savingsAccount.setBalance(savingsAccount.getBalance().subtract(data.amount()));
 
         this.transactionService.create(
-                new CreateTransactionDTO(account, TransactionTypeEnum.WITHDRAW, data.amount(),"WITHDRAW")
+                new CreateTransactionDTO(savingsAccount, TransactionTypeEnum.WITHDRAW, data.amount(),"WITHDRAW TO CHECKING ACCOUNT")
         );
 
-        return this.accountRepository.save(account);
+        this.accountRepository.save(checkingAccount);
+        return this.accountRepository.save(savingsAccount);
     }
 
     public void addFunds(Long accountId, BigDecimal amount) {
@@ -109,5 +115,9 @@ public class AccountService {
         return this.accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(
                 String.format("Account with ID %s not found", id)
         ));
+    }
+
+    public Account getFirstByUser(Long userId, AccountTypeEnum type) {
+        return this.accountRepository.findFirstByUserIdAndType(userId, type).orElseThrow(() -> new RuntimeException("No CHECKING accounts found for this user"));
     }
 }

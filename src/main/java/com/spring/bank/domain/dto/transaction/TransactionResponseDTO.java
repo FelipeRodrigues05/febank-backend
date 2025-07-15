@@ -1,5 +1,6 @@
 package com.spring.bank.domain.dto.transaction;
 
+import com.spring.bank.domain.enums.transaction.TransactionStatusEnum;
 import com.spring.bank.domain.model.Transaction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,9 @@ public class TransactionResponseDTO {
     private BigDecimal amount;
     private String description;
     private String type;
+    private TransactionStatusEnum status;
+
+    private LocalDateTime executedAt;
     private LocalDateTime createdAt;
 
     public TransactionResponseDTO(Transaction transaction) {
@@ -25,6 +29,8 @@ public class TransactionResponseDTO {
         this.amount         = transaction.getAmount();
         this.description    = transaction.getDescription();
         this.type           = transaction.getType() != null ? transaction.getType().name() : null;
+        this.status         = transaction.getStatus();
         this.createdAt      = transaction.getCreatedAt();
+        this.executedAt     = transaction.getExecutedAt();
     }
 }
