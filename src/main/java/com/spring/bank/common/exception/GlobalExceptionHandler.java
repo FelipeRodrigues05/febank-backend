@@ -60,6 +60,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(AccountTypeNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleAccountTypeNotFoundException(AccountTypeNotFoundException ex, WebRequest request) {
+        ErrorResponseDTO errorResponse = this.generateErrorResponse(HttpStatus.NOT_FOUND, request, ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
     private ErrorResponseDTO generateErrorResponse(HttpStatus httpStatus, WebRequest request, String message) {
         return ErrorResponseDTO.builder()
                 .timestamp(LocalDateTime.now())

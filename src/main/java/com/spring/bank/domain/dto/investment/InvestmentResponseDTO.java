@@ -1,6 +1,5 @@
-package com.spring.bank.domain.dto.account;
+package com.spring.bank.domain.dto.investment;
 
-import com.spring.bank.domain.dto.transaction.TransactionResponseDTO;
 import com.spring.bank.domain.enums.account.AccountStatusEnum;
 import com.spring.bank.domain.enums.account.AccountTypeEnum;
 import com.spring.bank.domain.model.Account;
@@ -11,14 +10,12 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountResponseDTO {
+public class InvestmentResponseDTO {
     private Long id;
     private String number;
     private AccountTypeEnum type;
@@ -27,7 +24,7 @@ public class AccountResponseDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public AccountResponseDTO(Account account) {
+    public InvestmentResponseDTO(Account account) {
         this.id = account.getId();
         this.number = account.getNumber();
         this.type = account.getType();
