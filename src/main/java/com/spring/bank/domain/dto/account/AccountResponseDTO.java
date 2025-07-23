@@ -4,7 +4,6 @@ import com.spring.bank.domain.dto.transaction.TransactionResponseDTO;
 import com.spring.bank.domain.enums.account.AccountStatusEnum;
 import com.spring.bank.domain.enums.account.AccountTypeEnum;
 import com.spring.bank.domain.model.Account;
-import com.spring.bank.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +24,6 @@ public class AccountResponseDTO {
     private AccountTypeEnum type;
     private BigDecimal balance;
     private AccountStatusEnum status;
-    private List<TransactionResponseDTO> transactions;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -33,15 +31,6 @@ public class AccountResponseDTO {
         this.id = account.getId();
         this.number = account.getNumber();
         this.type = account.getType();
-
-        if (account.getTransactions() != null) {
-            this.transactions = account.getTransactions().stream()
-                    .map(TransactionResponseDTO::new)
-                    .collect(Collectors.toList());
-        } else {
-            this.transactions = List.of();
-        }
-
         this.balance = account.getBalance();
         this.status = account.getStatus();
         this.createdAt = account.getCreatedAt();
