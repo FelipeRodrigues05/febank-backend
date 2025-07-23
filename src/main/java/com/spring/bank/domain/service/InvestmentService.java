@@ -1,9 +1,9 @@
 package com.spring.bank.domain.service;
 
+import com.spring.bank.common.exception.AccountTypeNotFoundException;
 import com.spring.bank.common.exception.InsufficientFundsException;
 import com.spring.bank.common.utils.IncomeCalculator;
 import com.spring.bank.domain.dto.investment.ApplyInvestmentDTO;
-import com.spring.bank.domain.dto.investment.InvestmentSimulationDTO;
 import com.spring.bank.domain.dto.transaction.CreateTransactionDTO;
 import com.spring.bank.domain.enums.account.AccountTypeEnum;
 import com.spring.bank.domain.enums.transaction.TransactionTypeEnum;
@@ -43,7 +43,7 @@ public class InvestmentService {
     }
 
     public void processDailyEarnings() {
-        List<Account> accounts = this.accountRepository.findAllByType(AccountTypeEnum.INVESTMENT).orElseThrow(() -> new RuntimeException("INVESTMENT accounts not found for any users"));
+        List<Account> accounts = this.accountRepository.findAllByType(AccountTypeEnum.INVESTMENT).orElseThrow(() -> new AccountTypeNotFoundException("INVESTMENT accounts not found for any users"));
         double dailyRate = incomeCalculator.daily();
 
         for (Account account : accounts) {

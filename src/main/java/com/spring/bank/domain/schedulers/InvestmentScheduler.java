@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 public class InvestmentScheduler {
     private final InvestmentService investmentService;
 
-    @Scheduled(fixedRate = 86_400_000) // 24h
+//    @Scheduled(fixedRate = 86_400_000) // 24h
+    @Scheduled(fixedRate = 60 * 60 * 1000) // 1h
 //    @Scheduled(fixedRate = 10000) // 10s
     public void applyDailyEarnings() {
         investmentService.processDailyEarnings();
