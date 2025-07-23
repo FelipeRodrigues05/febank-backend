@@ -55,7 +55,7 @@ public class AccountService {
         Account savingsAccount = this.getFirstByUser(data.userId(), AccountTypeEnum.SAVINGS);
 
         if (checkingAccount.getBalance().compareTo(data.amount()) < 0) {
-            throw new InsufficientFundsException("Insufficient balance for withdrawal.");
+            throw new InsufficientFundsException("Insufficient balance for deposit.");
         }
 
         checkingAccount.setBalance(checkingAccount.getBalance().subtract(data.amount()));
@@ -118,6 +118,6 @@ public class AccountService {
     }
 
     public Account getFirstByUser(Long userId, AccountTypeEnum type) {
-        return this.accountRepository.findFirstByUserIdAndType(userId, type).orElseThrow(() -> new RuntimeException("No CHECKING accounts found for this user"));
+        return this.accountRepository.findFirstByUserIdAndType(userId, type).orElseThrow(() -> new RuntimeException("No accounts found for this user"));
     }
 }

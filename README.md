@@ -76,16 +76,6 @@ Exemplo de token request:
    grant_type=client_credentials
    ```
 
-## 📬 Endpoints (exemplos)
-
-|Método  |Rota           |	Descrição                         |
-|--------|---------------|-----------------------------------|
-|POST    |`/token`       |	Gera token de acesso              |
-|GET     |`/accounts`    |	Lista contas bancárias            |
-|POST    |`/accounts`    |	Cria nova conta                   |
-|GET     |`/transactions`|	Lista transações                  |
-|POST    |`/transfer`    |	Realiza transferência entre contas|
-
 
 ## 🧪 Rodando os Testes
    ```bash
