@@ -37,9 +37,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Account> accounts;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Card> cards;
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 

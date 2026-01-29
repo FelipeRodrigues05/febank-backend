@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,14 +22,17 @@ public class Card {
     private String id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @Enumerated(EnumType.STRING)
     private CardType cardType;
 
     @Enumerated(EnumType.STRING)
     private CardStatus cardStatus;
+
+    private BigDecimal limitAvailable;
+    private BigDecimal usedLimit;
 
     private String number;
     private String cvv;
