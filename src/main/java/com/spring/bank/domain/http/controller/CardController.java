@@ -1,7 +1,6 @@
 package com.spring.bank.domain.http.controller;
 
 import com.spring.bank.domain.dto.card.CardResponseDTO;
-import com.spring.bank.domain.dto.investment.InvestmentResponseDTO;
 import com.spring.bank.domain.enums.card.CardType;
 import com.spring.bank.domain.model.Card;
 import com.spring.bank.domain.service.CardService;
