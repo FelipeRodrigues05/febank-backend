@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -36,7 +37,7 @@ public class Card {
 
     private String number;
     private String cvv;
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
