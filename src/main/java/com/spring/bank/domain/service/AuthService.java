@@ -40,4 +40,8 @@ public class AuthService {
 
         return user;
     }
+
+    public boolean validateCode(String code, User user) {
+        return user.getCode().equals(code);
+    }
 }

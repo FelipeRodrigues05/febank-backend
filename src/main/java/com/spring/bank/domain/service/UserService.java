@@ -2,10 +2,12 @@ package com.spring.bank.domain.service;
 
 import com.spring.bank.common.exception.EmailAlreadyExistsException;
 import com.spring.bank.common.exception.UserNotFoundException;
+import com.spring.bank.common.utils.VerificationCodeGenerator;
 import com.spring.bank.domain.dto.user.RegisterDTO;
 import com.spring.bank.domain.dto.user.UpdateUserDTO;
 import com.spring.bank.domain.model.User;
 import com.spring.bank.domain.repository.UserRepository;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +20,8 @@ import java.time.LocalDateTime;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final VerificationCodeGenerator verificationCodeGenerator;
+    private final EmailService emailService;
 
     @Transactional
     public User create(RegisterDTO data) {
@@ -48,6 +52,22 @@ public class UserService {
         user.setUpdatedAt(LocalDateTime.now());
 
         return this.userRepository.save(user);
+    }
+
+    public void forgotPassword(String email) throws UserNotFoundException, MessagingException {
+        User user = this.getByEmail(email.trim().toLowerCase());
+        String code = verificationCodeGenerator.generate();
+
+        emailService.sendVerificationEmail(user.getEmail(), code);
+        user.setCode(code);
+
+        this.userRepository.save(user);
+    }
+
+    public void changePassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        user.setCode(null);
+        this.userRepository.save(user);
     }
 
     public User getById(Long id) throws UserNotFoundException {

@@ -67,6 +67,48 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(InvalidAccountException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidAccountException(InvalidAccountException ex, WebRequest request) {
+        ErrorResponseDTO errorResponse = this.generateErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, request, ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(CardNotActiveException.class)
+    public ResponseEntity<ErrorResponseDTO> handleCardNotActiveException(CardNotActiveException ex, WebRequest request) {
+        ErrorResponseDTO errorResponse = this.generateErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, request, ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(CardNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleCardNotFoundException(CardNotFoundException ex, WebRequest request) {
+        ErrorResponseDTO errorResponse = this.generateErrorResponse(HttpStatus.NOT_FOUND, request, ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidCvvException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidCvvException(InvalidCvvException ex, WebRequest request) {
+        ErrorResponseDTO errorResponse = this.generateErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, request, ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(ExpiredCardException.class)
+    public ResponseEntity<ErrorResponseDTO> handleExpiredCardException(ExpiredCardException ex, WebRequest request) {
+        ErrorResponseDTO errorResponse = this.generateErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, request, ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(InvalidCardTypeException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidCardTypeException(InvalidCardTypeException ex, WebRequest request) {
+        ErrorResponseDTO errorResponse = this.generateErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, request, ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
     private ErrorResponseDTO generateErrorResponse(HttpStatus httpStatus, WebRequest request, String message) {
         return ErrorResponseDTO.builder()
                 .timestamp(LocalDateTime.now())
