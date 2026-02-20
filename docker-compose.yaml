@@ -52,6 +52,12 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: admin
     ports:
       - "9000:8080"
+  mailpit:
+    container_name: mailpit
+    image: axllent/mailpit:v1.15
+    ports:
+      - 1025:1025
+      - 8025:8025
 
 volumes:
   mysql_data:

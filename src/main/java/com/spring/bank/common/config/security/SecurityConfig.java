@@ -20,6 +20,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/actuator/*").permitAll()
+                                .requestMatchers("/user/forgot-password").permitAll()
                                 .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt())
                 .csrf(AbstractHttpConfigurer::disable).build();
