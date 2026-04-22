@@ -2,15 +2,11 @@ package com.spring.bank.domain.dto.transfer;
 
 import com.spring.bank.domain.dto.account.AccountResponseDTO;
 import com.spring.bank.domain.enums.transfer.TransferStatusEnum;
-import com.spring.bank.domain.model.Account;
 import com.spring.bank.domain.model.Transfer;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

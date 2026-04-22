@@ -29,12 +29,8 @@ public class User {
     @Column(unique = true, name = "email")
     private String email;
 
-    private String password;
-
     @Enumerated(EnumType.STRING)
     private UserType type;
-
-    private String code;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Account> accounts;

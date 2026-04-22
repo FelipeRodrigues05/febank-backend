@@ -34,6 +34,9 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Transaction> transactions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<SavingsBox> savingsBoxes = new ArrayList<>();
+
     private String number;
 
     @Enumerated(EnumType.STRING)

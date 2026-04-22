@@ -4,16 +4,19 @@ import com.spring.bank.common.exception.*;
 import com.spring.bank.common.utils.CardNumberGenerator;
 import com.spring.bank.domain.dto.card.CardResponseDTO;
 import com.spring.bank.domain.dto.card.PurchaseDTO;
-import com.spring.bank.domain.dto.transaction.TransactionResponseDTO;
+import com.spring.bank.domain.dto.transaction.CreateTransactionDTO;
 import com.spring.bank.domain.enums.account.AccountStatusEnum;
 import com.spring.bank.domain.enums.card.CardStatus;
 import com.spring.bank.domain.enums.card.CardType;
+import com.spring.bank.domain.enums.transaction.TransactionTypeEnum;
 import com.spring.bank.domain.model.Account;
 import com.spring.bank.domain.model.Card;
-import com.spring.bank.domain.model.Transaction;
 import com.spring.bank.domain.repository.CardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -24,8 +27,16 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CardService {
+
+    private static final Logger log = LoggerFactory.getLogger(CardService.class);
+
     private final CardRepository cardRepository;
     private final AccountService accountService;
+    private final TransactionService transactionService;
+    private final CardBillService cardBillService;
+
+    @Value("${app.card.credit.default-limit:1000}")
+    private BigDecimal creditDefaultLimit;
 
     @Transactional
     public Card createCard(Long accountId, CardType cardType) {
@@ -40,10 +51,13 @@ public class CardService {
         card.setCardStatus(CardStatus.ACTIVE);
 
         if (cardType == CardType.CREDIT) {
-            card.setLimitAvailable(BigDecimal.valueOf(1000));
+            card.setLimitAvailable(creditDefaultLimit);
+            card.setUsedLimit(BigDecimal.ZERO);
         }
 
-        return this.cardRepository.save(card);
+        Card saved = this.cardRepository.save(card);
+        log.info("Card created: id={} type={} accountId={}", saved.getId(), cardType, accountId);
+        return saved;
     }
 
     public List<CardResponseDTO> listCards(Long accountId) {
@@ -58,49 +72,65 @@ public class CardService {
 
     public Card blockCard(Card card) {
         card.setCardStatus(CardStatus.BLOCKED);
-
-        return this.cardRepository.save(card);
+        Card saved = this.cardRepository.save(card);
+        log.info("Card blocked: id={}", card.getId());
+        return saved;
     }
 
     public Card unblockCard(Card card) {
         card.setCardStatus(CardStatus.ACTIVE);
-
-        return this.cardRepository.save(card);
+        Card saved = this.cardRepository.save(card);
+        log.info("Card unblocked: id={}", card.getId());
+        return saved;
     }
 
+    @Transactional
     public void processPayment(PurchaseDTO data) {
         Card card = this.validateCard(data.cardNumber(), data.cvv(), data.cardType());
 
+        Account account = card.getAccount();
+
+        if (account.getStatus() != AccountStatusEnum.ACTIVE) {
+            throw new InvalidAccountException("Account linked to this card is not active.");
+        }
+
         switch (card.getCardType()) {
-            case DEBIT -> this.validateDebitPurchase(card, data.amount());
-            case CREDIT -> this.validateCreditPurchase(card, data.amount());
+            case DEBIT -> {
+                if (account.getBalance().compareTo(data.amount()) < 0) {
+                    throw new InsufficientFundsException("Insufficient funds.");
+                }
+                accountService.subtractFunds(account.getId(), data.amount());
+                transactionService.create(new CreateTransactionDTO(account, TransactionTypeEnum.DEBIT, data.amount(), "DEBIT CARD PURCHASE"));
+            }
+            case CREDIT -> {
+                if (card.getLimitAvailable().compareTo(data.amount()) < 0) {
+                    throw new InsufficientFundsException("Insufficient credit limit.");
+                }
+                card.setLimitAvailable(card.getLimitAvailable().subtract(data.amount()));
+                card.setUsedLimit(card.getUsedLimit().add(data.amount()));
+                cardRepository.save(card);
+                cardBillService.addPurchaseToBill(card, data.amount());
+            }
             default -> throw new UnsupportedOperationException("Card type not supported");
         }
+        log.info("Payment processed: cardType={} amount={} accountId={}", card.getCardType(), data.amount(), account.getId());
     }
 
     private Card validateCard(String cardNumber, String cvv, CardType cardType) {
-        Card card = this.cardRepository.findByNumber(cardNumber).orElseThrow(() -> new CardNotFoundException("Not Found"));
+        Card card = this.cardRepository.findByNumber(cardNumber).orElseThrow(() ->
+                new CardNotFoundException(String.format("Card with number ending in %s not found", cardNumber.substring(cardNumber.length() - 4)))
+        );
 
-        if (card.getCardStatus().isUsable()) throw new CardNotActiveException("Card is not active.");
+        if (!card.getCardStatus().isUsable()) throw new CardNotActiveException("Card is not active.");
 
-        if (!card.getCvv().equals(cvv)) throw new InvalidCvvException("CVV Invalid");
+        if (!card.getCvv().equals(cvv)) throw new InvalidCvvException("Invalid CVV");
 
-        if (card.getExpirationDate().isBefore(LocalDate.now())) throw new ExpiredCardException("Card expired");
+        if (card.getExpirationDate().isBefore(LocalDate.now())) throw new ExpiredCardException("Card is expired");
 
         if (cardType != null && card.getCardType() != cardType)
             throw new InvalidCardTypeException("Incorrect card type");
 
         return card;
-    }
-
-    private void validateDebitPurchase(Card card, BigDecimal amount) {
-        if (card.getAccount().getBalance().compareTo(amount) < 0)
-            throw new InsufficientFundsException("Insufficient funds.");
-    }
-
-    private void validateCreditPurchase(Card card, BigDecimal amount) {
-        if (card.getLimitAvailable().compareTo(amount) < 0)
-            throw new InsufficientFundsException("Insufficient funds.");
     }
 
     private Account validateAccount(Long accountId) {
@@ -112,5 +142,4 @@ public class CardService {
 
         return account;
     }
-
 }

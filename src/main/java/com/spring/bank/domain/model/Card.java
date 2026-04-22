@@ -3,7 +3,9 @@ package com.spring.bank.domain.model;
 import com.spring.bank.domain.enums.card.CardStatus;
 import com.spring.bank.domain.enums.card.CardType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -12,9 +14,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "cards")
-@Getter
 @Data
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Card {
@@ -41,4 +41,9 @@ public class Card {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Override
+    public String toString() {
+        return "Card{id='" + id + "', cardType=" + cardType + ", cardStatus=" + cardStatus + ", expirationDate=" + expirationDate + "}";
+    }
 }

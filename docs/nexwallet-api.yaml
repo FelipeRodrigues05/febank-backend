@@ -1,0 +1,881 @@
+openapi: 3.0.3
+info:
+  title: nexwallet API
+  description: Banking system backend — Spring Boot 3.5 + Keycloak + RabbitMQ
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: Local
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        status:   { type: integer, example: 404 }
+        error:    { type: string,  example: Not Found }
+        message:  { type: string,  example: Resource not found }
+        path:     { type: string,  example: /account/open }
+        timestamp:{ type: string,  format: date-time }
+
+    AccountResponse:
+      type: object
+      properties:
+        id:        { type: integer, example: 1 }
+        number:    { type: string,  example: "10000001" }
+        type:      { type: string,  enum: [CHECKING, SAVINGS, INVESTMENT] }
+        balance:   { type: number,  format: double, example: 1500.00 }
+        status:    { type: string,  enum: [ACTIVE, BLOCKED, CLOSED] }
+        createdAt: { type: string,  format: date-time }
+        updatedAt: { type: string,  format: date-time }
+
+    UserResponse:
+      type: object
+      properties:
+        id:        { type: integer, example: 1 }
+        name:      { type: string,  example: João Silva }
+        document:  { type: string,  example: "12345678901" }
+        email:     { type: string,  example: joao@email.com }
+        accounts:
+          type: array
+          items: { $ref: '#/components/schemas/AccountResponse' }
+        createdAt: { type: string,  format: date-time }
+        updatedAt: { type: string,  format: date-time }
+
+    CardResponse:
+      type: object
+      properties:
+        id:            { type: string,  example: 550e8400-e29b-41d4-a716-446655440000 }
+        maskedNumber:  { type: string,  example: "**** **** **** 4242" }
+        type:          { type: string,  enum: [DEBIT, CREDIT] }
+        status:        { type: string,  enum: [ACTIVE, BLOCKED] }
+        expirationDate:{ type: string,  format: date, example: "2028-04-01" }
+        ownerName:     { type: string,  example: João Silva }
+        createdAt:     { type: string,  format: date-time }
+
+    TransferResponse:
+      type: object
+      properties:
+        id:          { type: integer, example: 1 }
+        fromAccount: { $ref: '#/components/schemas/AccountResponse' }
+        toAccount:   { $ref: '#/components/schemas/AccountResponse' }
+        amount:      { type: number, format: double, example: 250.00 }
+        description: { type: string,  example: Aluguel }
+        status:      { type: string,  enum: [PENDING, COMPLETED, FAILED] }
+        createdAt:   { type: string,  format: date-time }
+        updatedAt:   { type: string,  format: date-time }
+
+    TransactionResponse:
+      type: object
+      properties:
+        id:          { type: integer, example: 1 }
+        amount:      { type: number,  format: double, example: 100.00 }
+        description: { type: string,  example: DEBIT CARD PURCHASE }
+        type:        { type: string,  enum: [DEPOSIT, WITHDRAW, FEE, DEBIT, CREDIT] }
+        status:      { type: string,  enum: [PENDING, COMPLETED, FAILED] }
+        executedAt:  { type: string,  format: date-time }
+        createdAt:   { type: string,  format: date-time }
+
+    SavingsBoxResponse:
+      type: object
+      properties:
+        id:        { type: integer, example: 1 }
+        accountId: { type: integer, example: 1 }
+        name:      { type: string,  example: Viagem Europa }
+        imageUrl:  { type: string,  example: "https://example.com/europa.jpg" }
+        balance:   { type: number,  format: double, example: 500.00 }
+        createdAt: { type: string,  format: date-time }
+        updatedAt: { type: string,  format: date-time }
+
+    PixKeyResponse:
+      type: object
+      properties:
+        id:        { type: string,  example: 550e8400-e29b-41d4-a716-446655440000 }
+        accountId: { type: integer, example: 1 }
+        type:      { type: string,  enum: [CPF, EMAIL, PHONE, RANDOM] }
+        key:       { type: string,  example: joao@email.com }
+        createdAt: { type: string,  format: date-time }
+
+    CardBillResponse:
+      type: object
+      properties:
+        id:             { type: integer, example: 1 }
+        cardId:         { type: string,  example: 550e8400-e29b-41d4-a716-446655440000 }
+        month:          { type: integer, example: 4 }
+        year:           { type: integer, example: 2026 }
+        totalAmount:    { type: number,  format: double, example: 850.00 }
+        minimumPayment: { type: number,  format: double, example: 85.00 }
+        dueDate:        { type: string,  format: date, example: "2026-05-11" }
+        status:         { type: string,  enum: [OPEN, CLOSED, PAID] }
+        closedAt:       { type: string,  format: date-time, nullable: true }
+        paidAt:         { type: string,  format: date-time, nullable: true }
+        createdAt:      { type: string,  format: date-time }
+
+tags:
+  - name: Auth
+    description: Registro, login e verificação de código
+  - name: User
+    description: Gerenciamento de usuário e senha
+  - name: Account
+    description: Abertura e operações de conta
+  - name: Card
+    description: Criação e uso de cartões
+  - name: Transaction
+    description: Extrato de transações
+  - name: Investment
+    description: Aplicação e resgate de investimentos
+  - name: Transfer
+    description: Transferências entre contas
+  - name: SavingsBox
+    description: Cofrinhos de poupança
+  - name: PIX
+    description: Chaves PIX e transferências instantâneas
+  - name: CardBill
+    description: Fatura do cartão de crédito
+
+paths:
+
+  # ─── AUTH ───────────────────────────────────────────────────────────────────
+
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Cadastrar usuário
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, document, email, password]
+              properties:
+                name:     { type: string, example: João Silva }
+                document: { type: string, example: "12345678901" }
+                email:    { type: string, format: email, example: joao@email.com }
+                password: { type: string, minLength: 8, example: "senha1234" }
+      responses:
+        '201':
+          description: Usuário criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UserResponse' }
+        '409':
+          description: Documento já cadastrado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [document, password]
+              properties:
+                document: { type: string, example: "12345678901" }
+                password: { type: string, example: "senha1234" }
+      responses:
+        '200':
+          description: Login realizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UserResponse' }
+        '401':
+          description: Senha incorreta
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /auth/validate-code/{id}:
+    post:
+      tags: [Auth]
+      summary: Validar código de verificação
+      security: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code: { type: string, minLength: 6, maxLength: 6, example: "482910" }
+      responses:
+        '200':
+          description: Código válido
+        '401':
+          description: Código inválido ou expirado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  # ─── USER ────────────────────────────────────────────────────────────────────
+
+  /user/forgot-password:
+    post:
+      tags: [User]
+      summary: Solicitar recuperação de senha
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: { type: string, format: email, example: joao@email.com }
+      responses:
+        '200':
+          description: E-mail de recuperação enviado
+        '404':
+          description: E-mail não encontrado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /user/change-password/{id}:
+    post:
+      tags: [User]
+      summary: Alterar senha
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password]
+              properties:
+                password: { type: string, minLength: 8, example: "novaSenha1234" }
+      responses:
+        '200':
+          description: Senha alterada
+        '404':
+          description: Usuário não encontrado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /user/update/{id}:
+    put:
+      tags: [User]
+      summary: Atualizar dados do usuário
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:  { type: string, example: João Silva Atualizado }
+                email: { type: string, format: email, example: novo@email.com }
+      responses:
+        '200':
+          description: Usuário atualizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UserResponse' }
+
+  # ─── ACCOUNT ─────────────────────────────────────────────────────────────────
+
+  /account/open:
+    post:
+      tags: [Account]
+      summary: Abrir conta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, type]
+              properties:
+                userId: { type: integer, example: 1 }
+                type:   { type: string, enum: [CHECKING, SAVINGS, INVESTMENT], example: CHECKING }
+      responses:
+        '201':
+          description: Conta aberta
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AccountResponse' }
+        '409':
+          description: Usuário já possui conta desse tipo
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /account/{number}:
+    get:
+      tags: [Account]
+      summary: Buscar conta por número
+      parameters:
+        - name: number
+          in: path
+          required: true
+          schema: { type: string, example: "10000001" }
+      responses:
+        '200':
+          description: Conta encontrada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AccountResponse' }
+        '404':
+          description: Conta não encontrada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /account/deposit:
+    post:
+      tags: [Account]
+      summary: Depositar da conta corrente para poupança
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, amount]
+              properties:
+                userId: { type: integer, example: 1 }
+                amount: { type: number,  format: double, example: 500.00 }
+      responses:
+        '200':
+          description: Depósito realizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AccountResponse' }
+        '422':
+          description: Saldo insuficiente
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /account/withdraw:
+    post:
+      tags: [Account]
+      summary: Sacar da poupança para conta corrente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, amount]
+              properties:
+                userId: { type: integer, example: 1 }
+                amount: { type: number,  format: double, example: 200.00 }
+      responses:
+        '200':
+          description: Saque realizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AccountResponse' }
+        '422':
+          description: Saldo insuficiente
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  # ─── CARD ────────────────────────────────────────────────────────────────────
+
+  /card/create/{accountId}:
+    post:
+      tags: [Card]
+      summary: Criar cartão
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              enum: [DEBIT, CREDIT]
+              example: DEBIT
+      responses:
+        '201':
+          description: Cartão criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CardResponse' }
+
+  /card/{accountId}:
+    get:
+      tags: [Card]
+      summary: Listar cartões da conta
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      responses:
+        '200':
+          description: Lista de cartões
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/CardResponse' }
+
+  /card/purchase:
+    post:
+      tags: [Card]
+      summary: Realizar compra com cartão
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [cardNumber, cvv, amount, cardType]
+              properties:
+                cardNumber: { type: string, example: "9900000000004242" }
+                cvv:        { type: string, example: "123" }
+                amount:     { type: number, format: double, example: 149.90 }
+                cardType:   { type: string, enum: [DEBIT, CREDIT], example: DEBIT }
+      responses:
+        '200':
+          description: Compra realizada
+        '422':
+          description: Saldo/limite insuficiente ou cartão inativo
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  # ─── TRANSACTION ─────────────────────────────────────────────────────────────
+
+  /transaction/account/{id}:
+    get:
+      tags: [Transaction]
+      summary: Listar transações da conta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      responses:
+        '200':
+          description: Lista de transações
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/TransactionResponse' }
+
+  # ─── INVESTMENT ──────────────────────────────────────────────────────────────
+
+  /investment/apply:
+    post:
+      tags: [Investment]
+      summary: Aplicar investimento (corrente → investimento)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, amount]
+              properties:
+                userId: { type: integer, example: 1 }
+                amount: { type: number,  format: double, example: 1000.00 }
+      responses:
+        '201':
+          description: Investimento aplicado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AccountResponse' }
+        '422':
+          description: Saldo insuficiente
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /investment/redeem:
+    post:
+      tags: [Investment]
+      summary: Resgatar investimento (investimento → corrente)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, amount]
+              properties:
+                userId: { type: integer, example: 1 }
+                amount: { type: number,  format: double, example: 500.00 }
+      responses:
+        '200':
+          description: Resgate realizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AccountResponse' }
+        '422':
+          description: Saldo insuficiente
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  # ─── TRANSFER ────────────────────────────────────────────────────────────────
+
+  /transfer:
+    post:
+      tags: [Transfer]
+      summary: Transferir entre contas correntes (TED)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fromAccount, toAccount, amount]
+              properties:
+                fromAccount: { type: integer, example: 1 }
+                toAccount:   { type: integer, example: 2 }
+                amount:      { type: number,  format: double, example: 300.00 }
+                description: { type: string,  example: Divisão da conta }
+      responses:
+        '200':
+          description: Transferência criada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TransferResponse' }
+        '422':
+          description: Saldo insuficiente ou conta inativa
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  # ─── SAVINGS BOX ─────────────────────────────────────────────────────────────
+
+  /savings-box:
+    post:
+      tags: [SavingsBox]
+      summary: Criar cofrinho
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accountId, name, imageUrl]
+              properties:
+                accountId:     { type: integer, example: 1 }
+                name:          { type: string,  example: Viagem Europa }
+                imageUrl:      { type: string,  example: "https://example.com/europa.jpg" }
+                initialAmount: { type: number,  format: double, example: 200.00 }
+      responses:
+        '201':
+          description: Cofrinho criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SavingsBoxResponse' }
+
+  /savings-box/account/{accountId}:
+    get:
+      tags: [SavingsBox]
+      summary: Listar cofrinhos da conta
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      responses:
+        '200':
+          description: Lista de cofrinhos
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/SavingsBoxResponse' }
+
+  /savings-box/{id}:
+    get:
+      tags: [SavingsBox]
+      summary: Buscar cofrinho por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      responses:
+        '200':
+          description: Cofrinho encontrado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SavingsBoxResponse' }
+        '404':
+          description: Cofrinho não encontrado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /savings-box/{id}/deposit:
+    post:
+      tags: [SavingsBox]
+      summary: Depositar no cofrinho (deduz da conta)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount]
+              properties:
+                amount: { type: number, format: double, example: 100.00 }
+      responses:
+        '200':
+          description: Depósito realizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SavingsBoxResponse' }
+        '422':
+          description: Saldo insuficiente
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /savings-box/{id}/withdraw:
+    post:
+      tags: [SavingsBox]
+      summary: Sacar do cofrinho (credita na conta)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount]
+              properties:
+                amount: { type: number, format: double, example: 50.00 }
+      responses:
+        '200':
+          description: Saque realizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SavingsBoxResponse' }
+        '422':
+          description: Saldo insuficiente no cofrinho
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  # ─── PIX ─────────────────────────────────────────────────────────────────────
+
+  /pix/keys:
+    post:
+      tags: [PIX]
+      summary: Cadastrar chave PIX
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accountId, type, key]
+              properties:
+                accountId: { type: integer, example: 1 }
+                type:      { type: string,  enum: [CPF, EMAIL, PHONE, RANDOM], example: EMAIL }
+                key:       { type: string,  example: joao@email.com }
+      responses:
+        '201':
+          description: Chave cadastrada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PixKeyResponse' }
+        '409':
+          description: Chave já cadastrada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '422':
+          description: Limite de 5 chaves atingido
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /pix/keys/account/{accountId}:
+    get:
+      tags: [PIX]
+      summary: Listar chaves PIX da conta
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      responses:
+        '200':
+          description: Lista de chaves
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/PixKeyResponse' }
+
+  /pix/keys/{id}:
+    delete:
+      tags: [PIX]
+      summary: Remover chave PIX
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, example: 550e8400-e29b-41d4-a716-446655440000 }
+      responses:
+        '204':
+          description: Chave removida
+        '404':
+          description: Chave não encontrada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /pix/transfer:
+    post:
+      tags: [PIX]
+      summary: Transferir via chave PIX
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fromAccountId, pixKey, amount]
+              properties:
+                fromAccountId: { type: integer, example: 1 }
+                pixKey:        { type: string,  example: joao@email.com }
+                amount:        { type: number,  format: double, example: 150.00 }
+                description:   { type: string,  example: Pagamento almoço }
+      responses:
+        '200':
+          description: Transferência realizada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TransferResponse' }
+        '404':
+          description: Chave PIX não encontrada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '422':
+          description: Saldo insuficiente
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  # ─── CARD BILL ───────────────────────────────────────────────────────────────
+
+  /card-bill/{cardId}/current:
+    get:
+      tags: [CardBill]
+      summary: Fatura atual do cartão (cria se não existir)
+      parameters:
+        - name: cardId
+          in: path
+          required: true
+          schema: { type: string, example: 550e8400-e29b-41d4-a716-446655440000 }
+      responses:
+        '200':
+          description: Fatura atual
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CardBillResponse' }
+
+  /card-bill/{cardId}/history:
+    get:
+      tags: [CardBill]
+      summary: Histórico de faturas do cartão
+      parameters:
+        - name: cardId
+          in: path
+          required: true
+          schema: { type: string, example: 550e8400-e29b-41d4-a716-446655440000 }
+      responses:
+        '200':
+          description: Histórico de faturas
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/CardBillResponse' }
+
+  /card-bill/{billId}/pay:
+    post:
+      tags: [CardBill]
+      summary: Pagar fatura (débita da conta corrente, restaura limite)
+      parameters:
+        - name: billId
+          in: path
+          required: true
+          schema: { type: integer, example: 1 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accountId]
+              properties:
+                accountId: { type: integer, example: 1 }
+      responses:
+        '200':
+          description: Fatura paga
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CardBillResponse' }
+        '409':
+          description: Fatura já paga
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '422':
+          description: Saldo insuficiente ou fatura ainda aberta
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }

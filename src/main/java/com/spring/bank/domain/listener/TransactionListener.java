@@ -3,17 +3,25 @@ package com.spring.bank.domain.listener;
 import com.spring.bank.common.config.messaging.RabbitMQConfig;
 import com.spring.bank.domain.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class TransactionListener {
+
+    private static final Logger log = LoggerFactory.getLogger(TransactionListener.class);
+
     private final TransactionService transactionService;
 
     @RabbitListener(queues = RabbitMQConfig.TRANSACTION_RESPONSE)
     public void listenResponseQueue(Long transactionId) {
-        this.transactionService.completeTransaction(transactionId);
+        try {
+            this.transactionService.completeTransaction(transactionId);
+        } catch (Exception e) {
+            log.error("Failed to complete transaction id={}: {}", transactionId, e.getMessage(), e);
+        }
     }
 }

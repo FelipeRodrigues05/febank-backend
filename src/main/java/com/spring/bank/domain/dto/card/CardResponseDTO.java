@@ -17,29 +17,25 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CardResponseDTO {
     private String id;
-    private String number;
+    private String maskedNumber;
     private CardType type;
     private CardStatus status;
     private LocalDate expirationDate;
-    private String cvv;
-
     private String ownerName;
-    private String ownerDocument;
-
     private LocalDateTime createdAt;
 
     public CardResponseDTO(Card card) {
         this.id = card.getId();
-        this.number = card.getNumber();
+        this.maskedNumber = maskCardNumber(card.getNumber());
         this.type = card.getCardType();
         this.status = card.getCardStatus();
         this.expirationDate = card.getExpirationDate();
-        this.cvv = card.getCvv();
-
         this.ownerName = card.getAccount().getUser().getName();
-        this.ownerDocument = card.getAccount().getUser().getDocument();
-
         this.createdAt = card.getCreatedAt();
+    }
 
+    private String maskCardNumber(String number) {
+        if (number == null || number.length() < 4) return "****";
+        return "**** **** **** " + number.substring(number.length() - 4);
     }
 }

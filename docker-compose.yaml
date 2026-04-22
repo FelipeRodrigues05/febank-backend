@@ -1,28 +1,73 @@
 services:
+
+  app:
+    build:
+      context: .
+      target: dev
+    container_name: nexwallet-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+      - "35729:35729"   # Spring LiveReload port
+    volumes:
+      - ./src:/app/src                  # Hot reload: source code
+      - ./pom.xml:/app/pom.xml          # Hot reload: dependency changes
+      - maven_cache:/root/.m2           # Cache Maven dependencies between restarts
+    environment:
+      SERVER_PORT: 8000
+      DB_URL: jdbc:mysql://database:3306/nexwallet?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      DB_USERNAME: docker
+      DB_PASSWORD: password
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+      JWT_SECRET: nexwallet-super-secret-key-change-in-production
+      DEFAULT_CLIENT_SECRET: nexwallet-secret
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
+      DDL_AUTO: update
+      CORS_ALLOWED_ORIGINS: http://localhost:3000
+    depends_on:
+      database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
   database:
     image: mysql:8.0
     container_name: mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: febank
+      MYSQL_DATABASE: nexwallet
       MYSQL_USER: docker
       MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "docker", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
     restart: always
     ports:
-      - "5672:5672"     # RabbitMQ protocol
-      - "15672:15672"   # Management UI
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   prometheus:
     image: prom/prometheus
@@ -43,22 +88,15 @@ services:
       - prometheus
     volumes:
       - grafana_data:/var/lib/grafana
-  keycloak:
-    container_name: keycloak
-    image: quay.io/keycloak/keycloak:25.0
-    command: start-dev
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-    ports:
-      - "9000:8080"
+
   mailpit:
     container_name: mailpit
     image: axllent/mailpit:v1.15
     ports:
-      - 1025:1025
-      - 8025:8025
+      - "1025:1025"
+      - "8025:8025"
 
 volumes:
   mysql_data:
   grafana_data:
+  maven_cache:

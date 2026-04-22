@@ -2,6 +2,7 @@ package com.spring.bank.domain.http.controller;
 
 import com.spring.bank.domain.dto.investment.ApplyInvestmentDTO;
 import com.spring.bank.domain.dto.investment.InvestmentResponseDTO;
+import com.spring.bank.domain.dto.investment.RedeemInvestmentDTO;
 import com.spring.bank.domain.model.Account;
 import com.spring.bank.domain.service.InvestmentService;
 import jakarta.validation.Valid;
@@ -21,6 +22,13 @@ public class InvestmentController {
     public ResponseEntity<InvestmentResponseDTO> apply(@Valid @RequestBody ApplyInvestmentDTO data) {
         Account investmentAccount = this.investmentService.apply(data);
 
-        return ResponseEntity.status(HttpStatus.OK).body(new InvestmentResponseDTO(investmentAccount));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new InvestmentResponseDTO(investmentAccount));
+    }
+
+    @PostMapping("/redeem")
+    public ResponseEntity<InvestmentResponseDTO> redeem(@Valid @RequestBody RedeemInvestmentDTO data) {
+        Account investmentAccount = this.investmentService.redeem(data);
+
+        return ResponseEntity.ok(new InvestmentResponseDTO(investmentAccount));
     }
 }
