@@ -33,6 +33,7 @@ public class PixService {
     private final AccountService accountService;
     private final TransactionService transactionService;
     private final TransferRepository transferRepository;
+    private final PixContactService pixContactService;
 
     public PixKey registerKey(CreatePixKeyDTO data) {
         if (pixKeyRepository.existsByKey(data.key())) {
@@ -111,6 +112,8 @@ public class PixService {
 
         Transfer saved = transferRepository.save(transfer);
         log.info("PIX transfer: id={} from={} to={} key={} amount={}", saved.getId(), fromAccount.getId(), toAccount.getId(), data.pixKey(), data.amount());
+
+        pixContactService.incrementTransferCount(fromAccount.getId(), data.pixKey());
         return saved;
     }
 }

@@ -113,6 +113,11 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.NOT_FOUND, request, ex.getMessage());
     }
 
+    @ExceptionHandler(PixContactNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handlePixContactNotFound(PixContactNotFoundException ex, WebRequest request) {
+        return buildResponse(HttpStatus.NOT_FOUND, request, ex.getMessage());
+    }
+
     @ExceptionHandler(PixKeyAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handlePixKeyAlreadyExists(PixKeyAlreadyExistsException ex, WebRequest request) {
         return buildResponse(HttpStatus.CONFLICT, request, ex.getMessage());

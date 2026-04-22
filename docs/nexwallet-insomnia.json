@@ -527,6 +527,72 @@
       "created": 1745280000000
     },
     {
+      "_id": "req_add_pix_contact",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "Add PIX Contact",
+      "method": "POST",
+      "url": "{{ base_url }}/pix/contacts",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"accountId\": 1,\n  \"alias\": \"João\",\n  \"pixKey\": \"joao@email.com\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -96,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_list_pix_contacts",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "List PIX Contacts",
+      "method": "GET",
+      "url": "{{ base_url }}/pix/contacts/account/1",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -95,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_update_pix_contact",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "Update PIX Contact Alias",
+      "method": "PATCH",
+      "url": "{{ base_url }}/pix/contacts/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"alias\": \"João Silva\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [{ "name": "accountId", "value": "1" }],
+      "metaSortKey": -94,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_delete_pix_contact",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "Delete PIX Contact",
+      "method": "DELETE",
+      "url": "{{ base_url }}/pix/contacts/1",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [{ "name": "accountId", "value": "1" }],
+      "metaSortKey": -93,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
       "_id": "fld_card_bill",
       "_type": "request_group",
       "parentId": "wrk_nexwallet",
