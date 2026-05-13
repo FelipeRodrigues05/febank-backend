@@ -259,4 +259,4 @@ Cobertura atual: **~82 testes unitários** cobrindo controllers (`@WebMvcTest`) 
 
 Distribuído sob a licença MIT.
 
-> Feito com por @FelipeRodrigues05
+> Feito com <3 por @FelipeRodrigues05
