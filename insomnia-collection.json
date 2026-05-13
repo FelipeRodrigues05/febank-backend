@@ -1,0 +1,3215 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-05-13T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "wrk_001",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "NexWallet API",
+      "description": "",
+      "scope": "collection",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "env_001",
+      "_type": "environment",
+      "parentId": "wrk_001",
+      "name": "NexWallet Local",
+      "data": {
+        "baseUrl": "http://localhost:8000",
+        "bearerToken": "REPLACE_WITH_JWT",
+        "clientId": "nexwallet-app",
+        "clientSecret": "nexwallet-secret",
+        "userId": 1,
+        "accountId": 1,
+        "accountId2": 2,
+        "cardId": "REPLACE_WITH_CARD_UUID",
+        "cardBillId": 1,
+        "pixKeyId": "REPLACE_WITH_PIX_KEY_UUID",
+        "savingsBoxId": 1,
+        "investmentPositionId": 1,
+        "productId": 1,
+        "loanId": 1,
+        "boletoCode": "REPLACE_WITH_BOLETO_CODE",
+        "transferId": 1,
+        "consentId": "REPLACE_WITH_CONSENT_UUID",
+        "flagId": 1,
+        "chargebackId": 1,
+        "devolutionId": 1,
+        "scheduledPixId": 1,
+        "scheduledPaymentId": 1,
+        "qrCodeId": "REPLACE_WITH_QR_UUID"
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 0,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_001",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Auth",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_002",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Users",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -2,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_003",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Accounts",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -3,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_004",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Transactions",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -4,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_005",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Transfers",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -5,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_006",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Cards",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -6,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_007",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Card Billing",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -7,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_008",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Cashback & Chargeback",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -8,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_009",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "PIX",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -9,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_010",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Savings Box",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -10,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_011",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Investments",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -11,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_012",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Boleto",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -12,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_013",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Loans",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -13,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_014",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Compliance & KYC",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -14,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_015",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Security & Audit",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -15,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "fld_016",
+      "_type": "request_group",
+      "parentId": "wrk_001",
+      "name": "Open Finance & Scheduled Payments",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -16,
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_001",
+      "_type": "request",
+      "parentId": "fld_001",
+      "name": "POST OAuth Token",
+      "method": "POST",
+      "url": "{{baseUrl}}/oauth/token",
+      "authentication": {
+        "type": "basic",
+        "username": "{{clientId}}",
+        "password": "{{clientSecret}}",
+        "disabled": false
+      },
+      "headers": [],
+      "body": {
+        "mimeType": "application/x-www-form-urlencoded",
+        "params": [
+          {
+            "name": "grant_type",
+            "value": "client_credentials",
+            "disabled": false
+          }
+        ]
+      },
+      "description": "",
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_002",
+      "_type": "request",
+      "parentId": "fld_001",
+      "name": "POST Login (User)",
+      "method": "POST",
+      "url": "{{baseUrl}}/auth/login",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"email\": \"user@nexwallet.com\", \"password\": \"password123\"}"
+      },
+      "description": "",
+      "metaSortKey": -2,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_003",
+      "_type": "request",
+      "parentId": "fld_001",
+      "name": "POST Create Client",
+      "method": "POST",
+      "url": "{{baseUrl}}/clients",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"clientId\": \"my-app\", \"name\": \"My Application\"}"
+      },
+      "description": "",
+      "metaSortKey": -3,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_004",
+      "_type": "request",
+      "parentId": "fld_002",
+      "name": "POST Create User",
+      "method": "POST",
+      "url": "{{baseUrl}}/user",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"name\": \"Felipe Rodrigues\", \"email\": \"user@nexwallet.com\", \"document\": \"529.982.247-25\", \"password\": \"password123\"}"
+      },
+      "description": "",
+      "metaSortKey": -4,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_005",
+      "_type": "request",
+      "parentId": "fld_002",
+      "name": "GET Get User",
+      "method": "GET",
+      "url": "{{baseUrl}}/user?userId={{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_006",
+      "_type": "request",
+      "parentId": "fld_002",
+      "name": "PUT Update User",
+      "method": "PUT",
+      "url": "{{baseUrl}}/user/update/{{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"name\": \"Felipe Updated\", \"email\": \"updated@nexwallet.com\"}"
+      },
+      "description": "",
+      "metaSortKey": -6,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_007",
+      "_type": "request",
+      "parentId": "fld_003",
+      "name": "POST Open Account",
+      "method": "POST",
+      "url": "{{baseUrl}}/account/open",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"userId\": {{userId}}, \"type\": \"CHECKING\"}"
+      },
+      "description": "",
+      "metaSortKey": -7,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_008",
+      "_type": "request",
+      "parentId": "fld_003",
+      "name": "GET Get Account by Number",
+      "method": "GET",
+      "url": "{{baseUrl}}/account/ACC-001",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -8,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_009",
+      "_type": "request",
+      "parentId": "fld_003",
+      "name": "POST Deposit",
+      "method": "POST",
+      "url": "{{baseUrl}}/account/deposit",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"userId\": {{userId}}, \"amount\": 1000.00}"
+      },
+      "description": "",
+      "metaSortKey": -9,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_010",
+      "_type": "request",
+      "parentId": "fld_003",
+      "name": "POST Withdraw",
+      "method": "POST",
+      "url": "{{baseUrl}}/account/withdraw",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"userId\": {{userId}}, \"amount\": 200.00}"
+      },
+      "description": "",
+      "metaSortKey": -10,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_011",
+      "_type": "request",
+      "parentId": "fld_004",
+      "name": "GET List by Account",
+      "method": "GET",
+      "url": "{{baseUrl}}/transaction/account/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -11,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_012",
+      "_type": "request",
+      "parentId": "fld_004",
+      "name": "GET Filter Transactions",
+      "method": "GET",
+      "url": "{{baseUrl}}/transaction/filter?accountId={{accountId}}&page=0&size=20&type=DEBIT&status=COMPLETED&from=2026-01-01&to=2026-12-31&minAmount=10&maxAmount=5000&description=PIX",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -12,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_013",
+      "_type": "request",
+      "parentId": "fld_005",
+      "name": "POST Create Transfer",
+      "method": "POST",
+      "url": "{{baseUrl}}/transfer/create",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"fromAccount\": {{accountId}}, \"toAccount\": {{accountId2}}, \"amount\": 150.00, \"description\": \"Pagamento aluguel\"}"
+      },
+      "description": "",
+      "metaSortKey": -13,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_014",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "POST Create Card",
+      "method": "POST",
+      "url": "{{baseUrl}}/card",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}, \"cardType\": \"CREDIT\"}"
+      },
+      "description": "",
+      "metaSortKey": -14,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_015",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "GET List Cards",
+      "method": "GET",
+      "url": "{{baseUrl}}/card/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -15,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_016",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "POST Purchase",
+      "method": "POST",
+      "url": "{{baseUrl}}/card/purchase",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"cardNumber\": \"4111111111111111\", \"cvv\": \"123\", \"cardType\": \"CREDIT\", \"amount\": 250.00}"
+      },
+      "description": "",
+      "metaSortKey": -16,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_017",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "POST Block Card",
+      "method": "POST",
+      "url": "{{baseUrl}}/card/{{cardId}}/block",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -17,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_018",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "POST Unblock Card",
+      "method": "POST",
+      "url": "{{baseUrl}}/card/{{cardId}}/unblock",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -18,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_019",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "POST Create Virtual Card",
+      "method": "POST",
+      "url": "{{baseUrl}}/card/virtual",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}}"
+      },
+      "description": "",
+      "metaSortKey": -19,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_020",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "GET Virtual Card",
+      "method": "GET",
+      "url": "{{baseUrl}}/card/{{cardId}}/virtual",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -20,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_021",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "POST Installment Purchase",
+      "method": "POST",
+      "url": "{{baseUrl}}/card/installment",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"cardNumber\": \"4111111111111111\", \"cvv\": \"123\", \"amount\": 1200.00, \"description\": \"Notebook Samsung\", \"installments\": 6}"
+      },
+      "description": "",
+      "metaSortKey": -21,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_022",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "GET Installment Plans",
+      "method": "GET",
+      "url": "{{baseUrl}}/card/{{cardId}}/installments",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -22,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_023",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "POST Request Limit Increase",
+      "method": "POST",
+      "url": "{{baseUrl}}/card/limit-increase",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"cardId\": \"{{cardId}}\", \"requestedLimit\": 3000.00}"
+      },
+      "description": "",
+      "metaSortKey": -23,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_024",
+      "_type": "request",
+      "parentId": "fld_006",
+      "name": "GET Limit Increase Requests",
+      "method": "GET",
+      "url": "{{baseUrl}}/card/{{cardId}}/limit-requests",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -24,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_025",
+      "_type": "request",
+      "parentId": "fld_007",
+      "name": "GET Current Bill",
+      "method": "GET",
+      "url": "{{baseUrl}}/card-bill/{{cardId}}/current",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_026",
+      "_type": "request",
+      "parentId": "fld_007",
+      "name": "GET Bill History",
+      "method": "GET",
+      "url": "{{baseUrl}}/card-bill/{{cardId}}/history",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -26,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_027",
+      "_type": "request",
+      "parentId": "fld_007",
+      "name": "POST Pay Bill",
+      "method": "POST",
+      "url": "{{baseUrl}}/card-bill/{{cardBillId}}/pay",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}}"
+      },
+      "description": "",
+      "metaSortKey": -27,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_028",
+      "_type": "request",
+      "parentId": "fld_008",
+      "name": "GET Cashback Summary",
+      "method": "GET",
+      "url": "{{baseUrl}}/card/cashback/{{cardId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -28,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_029",
+      "_type": "request",
+      "parentId": "fld_008",
+      "name": "POST Credit Pending Cashback",
+      "method": "POST",
+      "url": "{{baseUrl}}/card/cashback/{{cardId}}/credit",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -29,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_030",
+      "_type": "request",
+      "parentId": "fld_008",
+      "name": "POST Request Chargeback",
+      "method": "POST",
+      "url": "{{baseUrl}}/card/chargeback",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"cardId\": \"{{cardId}}\", \"transactionId\": 1, \"amount\": 250.00, \"reason\": \"Item não entregue\"}"
+      },
+      "description": "",
+      "metaSortKey": -30,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_031",
+      "_type": "request",
+      "parentId": "fld_008",
+      "name": "GET List Chargebacks",
+      "method": "GET",
+      "url": "{{baseUrl}}/card/chargeback/{{cardId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -31,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_032",
+      "_type": "request",
+      "parentId": "fld_008",
+      "name": "PATCH Approve Chargeback",
+      "method": "PATCH",
+      "url": "{{baseUrl}}/card/chargeback/{{chargebackId}}/approve",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -32,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_033",
+      "_type": "request",
+      "parentId": "fld_008",
+      "name": "PATCH Reject Chargeback",
+      "method": "PATCH",
+      "url": "{{baseUrl}}/card/chargeback/{{chargebackId}}/reject",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -33,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_034",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "POST Register PIX Key",
+      "method": "POST",
+      "url": "{{baseUrl}}/pix/keys",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}, \"type\": \"CPF\", \"key\": \"529.982.247-25\"}"
+      },
+      "description": "",
+      "metaSortKey": -34,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_035",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "GET List PIX Keys",
+      "method": "GET",
+      "url": "{{baseUrl}}/pix/keys/account/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -35,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_036",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "DELETE Remove PIX Key",
+      "method": "DELETE",
+      "url": "{{baseUrl}}/pix/keys/{{pixKeyId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -36,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_037",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "POST PIX Transfer",
+      "method": "POST",
+      "url": "{{baseUrl}}/pix/transfer",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"fromAccountId\": {{accountId}}, \"pixKey\": \"529.982.247-25\", \"amount\": 50.00, \"description\": \"Presente\"}"
+      },
+      "description": "",
+      "metaSortKey": -37,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_038",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "GET DICT Lookup",
+      "method": "GET",
+      "url": "{{baseUrl}}/pix/dict/529.982.247-25",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -38,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_039",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "GET PIX Limits",
+      "method": "GET",
+      "url": "{{baseUrl}}/pix/limits/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -39,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_040",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "PUT Update PIX Limits",
+      "method": "PUT",
+      "url": "{{baseUrl}}/pix/limits/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"dailyLimit\": 10000.00, \"singleTransactionLimit\": 5000.00, \"nightLimit\": 1000.00}"
+      },
+      "description": "",
+      "metaSortKey": -40,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_041",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "POST Generate QR Code Static",
+      "method": "POST",
+      "url": "{{baseUrl}}/pix/qrcode",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}, \"pixKey\": \"529.982.247-25\", \"type\": \"STATIC\", \"amount\": 99.90, \"description\": \"Cobrança NexWallet\"}"
+      },
+      "description": "",
+      "metaSortKey": -41,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_042",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "POST Generate QR Code Dynamic",
+      "method": "POST",
+      "url": "{{baseUrl}}/pix/qrcode",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}, \"pixKey\": \"529.982.247-25\", \"type\": \"DYNAMIC\", \"amount\": 199.00, \"description\": \"Pedido #1234\", \"expiryMinutes\": 30}"
+      },
+      "description": "",
+      "metaSortKey": -42,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_043",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "POST Pay QR Code",
+      "method": "POST",
+      "url": "{{baseUrl}}/pix/qrcode/{{qrCodeId}}/pay?payerAccountId={{accountId2}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -43,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_044",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "DELETE Deactivate QR Code",
+      "method": "DELETE",
+      "url": "{{baseUrl}}/pix/qrcode/{{qrCodeId}}?accountId={{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -44,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_045",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "POST Add PIX Contact",
+      "method": "POST",
+      "url": "{{baseUrl}}/pix/contacts",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}, \"alias\": \"João Silva\", \"pixKey\": \"joao@email.com\"}"
+      },
+      "description": "",
+      "metaSortKey": -45,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_046",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "GET List PIX Contacts",
+      "method": "GET",
+      "url": "{{baseUrl}}/pix/contacts/account/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -46,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_047",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "POST Request PIX Devolution",
+      "method": "POST",
+      "url": "{{baseUrl}}/pix/devolution",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"originalTransferId\": {{transferId}}, \"requesterAccountId\": {{accountId}}, \"amount\": 50.00, \"reason\": \"Valor incorreto\"}"
+      },
+      "description": "",
+      "metaSortKey": -47,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_048",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "PATCH Approve Devolution",
+      "method": "PATCH",
+      "url": "{{baseUrl}}/pix/devolution/{{devolutionId}}/approve",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -48,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_049",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "PATCH Reject Devolution",
+      "method": "PATCH",
+      "url": "{{baseUrl}}/pix/devolution/{{devolutionId}}/reject",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -49,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_050",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "POST PIX Saque",
+      "method": "POST",
+      "url": "{{baseUrl}}/pix/saque",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}, \"merchantAccountId\": {{accountId2}}, \"withdrawalAmount\": 100.00, \"type\": \"SAQUE\"}"
+      },
+      "description": "",
+      "metaSortKey": -50,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_051",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "POST PIX Troco",
+      "method": "POST",
+      "url": "{{baseUrl}}/pix/saque",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}, \"merchantAccountId\": {{accountId2}}, \"withdrawalAmount\": 20.00, \"type\": \"TROCO\", \"purchaseAmount\": 80.00}"
+      },
+      "description": "",
+      "metaSortKey": -51,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_052",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "POST Schedule PIX",
+      "method": "POST",
+      "url": "{{baseUrl}}/pix/scheduled",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"fromAccountId\": {{accountId}}, \"pixKey\": \"joao@email.com\", \"amount\": 200.00, \"description\": \"Aluguel\", \"scheduledDate\": \"2026-06-01\"}"
+      },
+      "description": "",
+      "metaSortKey": -52,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_053",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "GET List Scheduled PIX",
+      "method": "GET",
+      "url": "{{baseUrl}}/pix/scheduled/account/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -53,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_054",
+      "_type": "request",
+      "parentId": "fld_009",
+      "name": "DELETE Cancel Scheduled PIX",
+      "method": "DELETE",
+      "url": "{{baseUrl}}/pix/scheduled/{{scheduledPixId}}?accountId={{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -54,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_055",
+      "_type": "request",
+      "parentId": "fld_010",
+      "name": "POST Create Savings Box",
+      "method": "POST",
+      "url": "{{baseUrl}}/savings-box",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}, \"name\": \"Viagem Europa\", \"imageUrl\": \"https://img.nexwallet.com/viagem.jpg\", \"initialAmount\": 500.00}"
+      },
+      "description": "",
+      "metaSortKey": -55,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_056",
+      "_type": "request",
+      "parentId": "fld_010",
+      "name": "GET List Savings Boxes",
+      "method": "GET",
+      "url": "{{baseUrl}}/savings-box/account/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -56,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_057",
+      "_type": "request",
+      "parentId": "fld_010",
+      "name": "GET Get Savings Box",
+      "method": "GET",
+      "url": "{{baseUrl}}/savings-box/{{savingsBoxId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -57,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_058",
+      "_type": "request",
+      "parentId": "fld_010",
+      "name": "POST Deposit to Box",
+      "method": "POST",
+      "url": "{{baseUrl}}/savings-box/{{savingsBoxId}}/deposit",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"amount\": 300.00}"
+      },
+      "description": "",
+      "metaSortKey": -58,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_059",
+      "_type": "request",
+      "parentId": "fld_010",
+      "name": "POST Withdraw from Box",
+      "method": "POST",
+      "url": "{{baseUrl}}/savings-box/{{savingsBoxId}}/withdraw",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"amount\": 100.00}"
+      },
+      "description": "",
+      "metaSortKey": -59,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_060",
+      "_type": "request",
+      "parentId": "fld_011",
+      "name": "POST Apply Investment",
+      "method": "POST",
+      "url": "{{baseUrl}}/investment/apply",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"userId\": {{userId}}, \"amount\": 1000.00}"
+      },
+      "description": "",
+      "metaSortKey": -60,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_061",
+      "_type": "request",
+      "parentId": "fld_011",
+      "name": "POST Redeem Investment",
+      "method": "POST",
+      "url": "{{baseUrl}}/investment/redeem",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"userId\": {{userId}}, \"amount\": 500.00}"
+      },
+      "description": "",
+      "metaSortKey": -61,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_062",
+      "_type": "request",
+      "parentId": "fld_011",
+      "name": "GET List Investment Products",
+      "method": "GET",
+      "url": "{{baseUrl}}/investment/products",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -62,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_063",
+      "_type": "request",
+      "parentId": "fld_011",
+      "name": "POST Apply to Product",
+      "method": "POST",
+      "url": "{{baseUrl}}/investment/products/apply",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}, \"productId\": {{productId}}, \"amount\": 1000.00}"
+      },
+      "description": "",
+      "metaSortKey": -63,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_064",
+      "_type": "request",
+      "parentId": "fld_011",
+      "name": "POST Redeem from Product",
+      "method": "POST",
+      "url": "{{baseUrl}}/investment/products/redeem",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"positionId\": {{investmentPositionId}}, \"accountId\": {{accountId}}}"
+      },
+      "description": "",
+      "metaSortKey": -64,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_065",
+      "_type": "request",
+      "parentId": "fld_012",
+      "name": "POST Emit Boleto",
+      "method": "POST",
+      "url": "{{baseUrl}}/boleto/emit",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"issuerAccountId\": {{accountId}}, \"payerDocument\": \"529.982.247-25\", \"amount\": 350.00, \"description\": \"Mensalidade Academia\", \"dueDate\": \"2026-06-30\"}"
+      },
+      "description": "",
+      "metaSortKey": -65,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_066",
+      "_type": "request",
+      "parentId": "fld_012",
+      "name": "POST Pay Boleto",
+      "method": "POST",
+      "url": "{{baseUrl}}/boleto/pay",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"payerAccountId\": {{accountId2}}, \"boletoCode\": \"{{boletoCode}}\"}"
+      },
+      "description": "",
+      "metaSortKey": -66,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_067",
+      "_type": "request",
+      "parentId": "fld_012",
+      "name": "GET Get Boleto by Code",
+      "method": "GET",
+      "url": "{{baseUrl}}/boleto/{{boletoCode}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -67,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_068",
+      "_type": "request",
+      "parentId": "fld_012",
+      "name": "GET List Boletos by Account",
+      "method": "GET",
+      "url": "{{baseUrl}}/boleto/account/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -68,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_069",
+      "_type": "request",
+      "parentId": "fld_013",
+      "name": "POST Apply for Loan",
+      "method": "POST",
+      "url": "{{baseUrl}}/loan/apply",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"accountId\": {{accountId}}, \"type\": \"PERSONAL\", \"requestedAmount\": 5000.00, \"totalInstallments\": 12}"
+      },
+      "description": "",
+      "metaSortKey": -69,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_070",
+      "_type": "request",
+      "parentId": "fld_013",
+      "name": "GET List Loans",
+      "method": "GET",
+      "url": "{{baseUrl}}/loan/account/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -70,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_071",
+      "_type": "request",
+      "parentId": "fld_013",
+      "name": "GET Loan Installments",
+      "method": "GET",
+      "url": "{{baseUrl}}/loan/{{loanId}}/installments",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -71,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_072",
+      "_type": "request",
+      "parentId": "fld_013",
+      "name": "POST Pay Installment",
+      "method": "POST",
+      "url": "{{baseUrl}}/loan/pay-installment",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"loanId\": {{loanId}}, \"accountId\": {{accountId}}, \"installmentNumber\": 1}"
+      },
+      "description": "",
+      "metaSortKey": -72,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_073",
+      "_type": "request",
+      "parentId": "fld_014",
+      "name": "POST Submit KYC",
+      "method": "POST",
+      "url": "{{baseUrl}}/kyc/submit",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"userId\": {{userId}}, \"document\": \"529.982.247-25\"}"
+      },
+      "description": "",
+      "metaSortKey": -73,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_074",
+      "_type": "request",
+      "parentId": "fld_014",
+      "name": "GET KYC Status",
+      "method": "GET",
+      "url": "{{baseUrl}}/kyc/{{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -74,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_075",
+      "_type": "request",
+      "parentId": "fld_014",
+      "name": "GET Credit Score",
+      "method": "GET",
+      "url": "{{baseUrl}}/kyc/credit-score/{{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_076",
+      "_type": "request",
+      "parentId": "fld_014",
+      "name": "GET AML Pending Flags",
+      "method": "GET",
+      "url": "{{baseUrl}}/kyc/aml/flags",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -76,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_077",
+      "_type": "request",
+      "parentId": "fld_014",
+      "name": "PATCH Clear AML Flag",
+      "method": "PATCH",
+      "url": "{{baseUrl}}/kyc/aml/flags/{{flagId}}/clear",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -77,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_078",
+      "_type": "request",
+      "parentId": "fld_014",
+      "name": "PATCH Report AML Flag",
+      "method": "PATCH",
+      "url": "{{baseUrl}}/kyc/aml/flags/{{flagId}}/report",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -78,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_079",
+      "_type": "request",
+      "parentId": "fld_015",
+      "name": "POST Send OTP",
+      "method": "POST",
+      "url": "{{baseUrl}}/2fa/otp/send",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"userId\": {{userId}}}"
+      },
+      "description": "",
+      "metaSortKey": -79,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_080",
+      "_type": "request",
+      "parentId": "fld_015",
+      "name": "POST Verify OTP",
+      "method": "POST",
+      "url": "{{baseUrl}}/2fa/otp/verify",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"userId\": {{userId}}, \"code\": \"123456\"}"
+      },
+      "description": "",
+      "metaSortKey": -80,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_081",
+      "_type": "request",
+      "parentId": "fld_015",
+      "name": "POST Trust Device",
+      "method": "POST",
+      "url": "{{baseUrl}}/2fa/devices/trust",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"userId\": {{userId}}, \"deviceFingerprint\": \"fp_abc123def456\", \"deviceName\": \"Chrome - MacOS\"}"
+      },
+      "description": "",
+      "metaSortKey": -81,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_082",
+      "_type": "request",
+      "parentId": "fld_015",
+      "name": "GET List Trusted Devices",
+      "method": "GET",
+      "url": "{{baseUrl}}/2fa/devices/{{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -82,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_083",
+      "_type": "request",
+      "parentId": "fld_015",
+      "name": "DELETE Revoke Trusted Device",
+      "method": "DELETE",
+      "url": "{{baseUrl}}/2fa/devices/{{userId}}/fp_abc123def456",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -83,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_084",
+      "_type": "request",
+      "parentId": "fld_015",
+      "name": "GET Audit Logs",
+      "method": "GET",
+      "url": "{{baseUrl}}/audit/user/{{userId}}?page=0&size=20",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -84,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_085",
+      "_type": "request",
+      "parentId": "fld_015",
+      "name": "GET Operation Limits",
+      "method": "GET",
+      "url": "{{baseUrl}}/limits/{{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -85,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_086",
+      "_type": "request",
+      "parentId": "fld_015",
+      "name": "PUT Update Operation Limit",
+      "method": "PUT",
+      "url": "{{baseUrl}}/limits/{{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"limitType\": \"PIX_DAILY\", \"maxAmount\": 8000.00}"
+      },
+      "description": "",
+      "metaSortKey": -86,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_087",
+      "_type": "request",
+      "parentId": "fld_016",
+      "name": "POST Create Consent",
+      "method": "POST",
+      "url": "{{baseUrl}}/open-finance/consents",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"userId\": {{userId}}, \"clientId\": \"{{clientId}}\", \"permissions\": [\"ACCOUNTS_READ\", \"TRANSACTIONS_READ\"], \"expiresAt\": \"2026-12-31T23:59:59\"}"
+      },
+      "description": "",
+      "metaSortKey": -87,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_088",
+      "_type": "request",
+      "parentId": "fld_016",
+      "name": "POST Authorise Consent",
+      "method": "POST",
+      "url": "{{baseUrl}}/open-finance/consents/{{consentId}}/authorise?userId={{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -88,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_089",
+      "_type": "request",
+      "parentId": "fld_016",
+      "name": "DELETE Revoke Consent",
+      "method": "DELETE",
+      "url": "{{baseUrl}}/open-finance/consents/{{consentId}}?userId={{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -89,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_090",
+      "_type": "request",
+      "parentId": "fld_016",
+      "name": "GET User Consents",
+      "method": "GET",
+      "url": "{{baseUrl}}/open-finance/consents/user/{{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -90,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_091",
+      "_type": "request",
+      "parentId": "fld_016",
+      "name": "GET Account Data (Open Finance)",
+      "method": "GET",
+      "url": "{{baseUrl}}/open-finance/data/accounts?consentId={{consentId}}&clientId={{clientId}}&userId={{userId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -91,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_092",
+      "_type": "request",
+      "parentId": "fld_016",
+      "name": "POST Schedule Payment",
+      "method": "POST",
+      "url": "{{baseUrl}}/scheduled-payments",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "disabled": false
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"fromAccountId\": {{accountId}}, \"type\": \"PIX\", \"amount\": 200.00, \"targetIdentifier\": \"joao@email.com\", \"description\": \"Aluguel mensal\", \"scheduledDate\": \"2026-06-05\"}"
+      },
+      "description": "",
+      "metaSortKey": -92,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_093",
+      "_type": "request",
+      "parentId": "fld_016",
+      "name": "GET List Scheduled Payments",
+      "method": "GET",
+      "url": "{{baseUrl}}/scheduled-payments/account/{{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -93,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    },
+    {
+      "_id": "req_094",
+      "_type": "request",
+      "parentId": "fld_016",
+      "name": "DELETE Cancel Scheduled Payment",
+      "method": "DELETE",
+      "url": "{{baseUrl}}/scheduled-payments/{{scheduledPaymentId}}?accountId={{accountId}}",
+      "authentication": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{bearerToken}}",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "description": "",
+      "metaSortKey": -94,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "created": 1747094400000,
+      "modified": 1747094400000
+    }
+  ]
+}
