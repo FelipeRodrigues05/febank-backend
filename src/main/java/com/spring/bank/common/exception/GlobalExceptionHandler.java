@@ -148,6 +148,11 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.UNAUTHORIZED, request, ex.getMessage());
     }
 
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidCredentials(InvalidCredentialsException ex, WebRequest request) {
+        return buildResponse(HttpStatus.UNAUTHORIZED, request, ex.getMessage());
+    }
+
     @ExceptionHandler(org.springframework.web.bind.MissingServletRequestParameterException.class)
     public ResponseEntity<ErrorResponseDTO> handleMissingParam(org.springframework.web.bind.MissingServletRequestParameterException ex, WebRequest request) {
         return buildResponse(HttpStatus.BAD_REQUEST, request, "Missing parameter: " + ex.getParameterName());
