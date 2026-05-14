@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexWallet — Core Bancário Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #080a0f;
+      --surface: #0d1117;
+      --surface-2: #161b22;
+      --surface-3: #1c2128;
+      --border: #30363d;
+      --border-subtle: #21262d;
+      --green: #3fb950;
+      --green-dim: #1a4426;
+      --green-glow: rgba(63, 185, 80, 0.15);
+      --amber: #d29922;
+      --amber-dim: #3d2b00;
+      --blue: #58a6ff;
+      --blue-dim: #0d2644;
+      --purple: #bc8cff;
+      --red: #f85149;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --text-tertiary: #484f58;
+      --mono: 'DM Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text-primary);
+      font-family: var(--sans);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* GRID BACKGROUND */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border-subtle) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(8, 10, 15, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--green);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-logo span { color: var(--text-tertiary); }
+
+    nav a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text-primary); }
+
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+
+    .nav-cta {
+      background: var(--green-dim);
+      color: var(--green) !important;
+      border: 1px solid var(--green);
+      padding: 6px 16px;
+      border-radius: 4px;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: rgba(63, 185, 80, 0.2) !important; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--green);
+      background: var(--green-dim);
+      border: 1px solid rgba(63, 185, 80, 0.3);
+      padding: 5px 12px;
+      border-radius: 100px;
+      letter-spacing: 0.08em;
+      margin-bottom: 40px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 .word-nex { color: var(--text-primary); }
+    .hero h1 .word-wallet { color: var(--green); }
+
+    .hero-sub-title {
+      font-family: var(--mono);
+      font-size: clamp(11px, 1.5vw, 14px);
+      color: var(--text-tertiary);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-desc {
+      max-width: 600px;
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 48px;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green);
+      color: #000;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 12px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--mono);
+      font-size: 13px;
+      padding: 12px 24px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-secondary);
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
+    /* TERMINAL */
+    .terminal-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto 120px;
+      padding: 0 24px;
+      animation: fadeUp 0.6s 0.5s ease both;
+    }
+
+    .terminal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--border-subtle);
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green { background: #28c840; }
+
+    .terminal-title {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .terminal-body {
+      padding: 20px 24px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    .t-comment { color: var(--text-tertiary); }
+    .t-cmd { color: var(--text-primary); }
+    .t-cmd::before { content: '$ '; color: var(--green); }
+    .t-out { color: var(--text-secondary); padding-left: 16px; }
+    .t-green { color: var(--green); }
+    .t-amber { color: var(--amber); }
+    .t-blue { color: var(--blue); }
+    .t-empty { height: 8px; }
+
+    /* STATS */
+    .stats {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto 120px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .stat {
+      background: var(--surface);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--mono);
+      font-size: 40px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-num span { color: var(--green); }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* SECTION */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto 120px;
+      padding: 0 24px;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--green);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+
+    /* MODULES GRID */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .module-card {
+      background: var(--surface);
+      padding: 28px 24px;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .module-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent, var(--green));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .module-card:hover { background: var(--surface-2); }
+    .module-card:hover::before { transform: scaleX(1); }
+
+    .module-icon {
+      font-size: 22px;
+      margin-bottom: 14px;
+    }
+
+    .module-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .module-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .module-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+    }
+
+    .tag-green { background: var(--green-dim); color: var(--green); }
+    .tag-amber { background: var(--amber-dim); color: var(--amber); }
+    .tag-blue { background: var(--blue-dim); color: var(--blue); }
+
+    /* STACK */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .stack-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .stack-item:hover { border-color: var(--text-tertiary); }
+
+    .stack-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .stack-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .stack-role {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    /* ARCH */
+    .arch-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 32px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 2;
+      color: var(--text-secondary);
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .arch-box .highlight { color: var(--green); }
+    .arch-box .dim { color: var(--text-tertiary); }
+    .arch-box .accent { color: var(--blue); }
+
+    /* SERVICES TABLE */
+    .services-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+
+    .services-table th {
+      text-align: left;
+      padding: 12px 16px;
+      background: var(--surface-2);
+      color: var(--text-tertiary);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .services-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+
+    .services-table tr:last-child td { border-bottom: none; }
+    .services-table tr:hover td { background: var(--surface-2); }
+
+    .services-table td:first-child { color: var(--text-primary); }
+    .services-table td a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      background: var(--surface-3);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .services-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border-subtle);
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--mono);
+      font-size: 20px;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+
+    .footer-text {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 24px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text-primary); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* GLOW */
+    .glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(63,185,80,0.06) 0%, transparent 70%);
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .modules-grid { grid-template-columns: 1fr; }
+      .stack-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">nex<span>//</span>wallet</div>
+    <div class="nav-links">
+      <a href="#modules">Módulos</a>
+      <a href="#stack">Stack</a>
+      <a href="#arquitetura">Arquitetura</a>
+      <a href="#deploy">Deploy</a>
+      <a href="https://github.com/FelipeRodrigues05/nexwallet-backend" class="nav-cta" target="_blank">GitHub →</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="glow"></div>
+    <div class="hero-badge">v1.0.0 &mdash; Java 21 + Spring Boot 3.5</div>
+    <h1>
+      <span class="word-nex">Nex</span><span class="word-wallet">Wallet</span>
+    </h1>
+    <p class="hero-sub-title">Core bancário digital &mdash; backend completo</p>
+    <p class="hero-desc">
+      Sistema bancário digital de ponta a ponta. PIX, cartões, investimentos, compliance KYC/AML, OAuth2 próprio e muito mais — tudo em Java 21 com arquitetura modular por domínio.
+    </p>
+    <div class="hero-actions">
+      <a href="https://github.com/FelipeRodrigues05/nexwallet-backend" class="btn-primary" target="_blank">
+        ↗ Ver no GitHub
+      </a>
+      <a href="#deploy" class="btn-secondary">
+        ▶ Como rodar
+      </a>
+    </div>
+  </div>
+
+  <!-- TERMINAL -->
+  <div class="terminal-wrap">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+        <span class="terminal-title">bash &mdash; nexwallet</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-comment"># clonar e subir em 30 segundos</div>
+        <div class="t-cmd">git clone https://github.com/FelipeRodrigues05/nexwallet-backend</div>
+        <div class="t-cmd">cd nexwallet-backend</div>
+        <div class="t-cmd">docker compose up</div>
+        <div class="t-empty"></div>
+        <div class="t-out"><span class="t-green">✔</span> API           <span class="t-blue">http://localhost:8000</span></div>
+        <div class="t-out"><span class="t-green">✔</span> Swagger UI    <span class="t-blue">http://localhost:8000/swagger-ui</span></div>
+        <div class="t-out"><span class="t-green">✔</span> Prometheus    <span class="t-blue">http://localhost:9090</span></div>
+        <div class="t-out"><span class="t-green">✔</span> Grafana       <span class="t-blue">http://localhost:3001</span>  <span class="t-amber">admin/admin</span></div>
+        <div class="t-out"><span class="t-green">✔</span> RabbitMQ      <span class="t-blue">http://localhost:15672</span> <span class="t-amber">guest/guest</span></div>
+        <div class="t-out"><span class="t-green">✔</span> Mailpit       <span class="t-blue">http://localhost:8025</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats" style="position:relative;z-index:1;max-width:1100px;margin:0 auto 120px;padding:0 24px;">
+    <div class="stat"><div class="stat-num">18<span>+</span></div><div class="stat-label">Módulos de Domínio</div></div>
+    <div class="stat"><div class="stat-num">82<span>+</span></div><div class="stat-label">Testes Unitários</div></div>
+    <div class="stat"><div class="stat-num">6<span>x</span></div><div class="stat-label">Serviços no Compose</div></div>
+    <div class="stat"><div class="stat-num">21</div><div class="stat-label">Java LTS Version</div></div>
+  </div>
+
+  <!-- MODULES -->
+  <section id="modules">
+    <div class="section-label">// domínios</div>
+    <h2 class="section-title">Cobertura completa<br>de um banco digital</h2>
+    <p class="section-desc">Cada módulo é independente e segue a mesma estrutura interna — controller, service, repository, domain.</p>
+
+    <div class="modules-grid">
+
+      <div class="module-card" style="--accent: var(--green)">
+        <div class="module-icon">🔐</div>
+        <div class="module-name">Autenticação & Segurança</div>
+        <div class="module-desc">OAuth2 Client Credentials com implementação própria, JWT HMAC256, 2FA por OTP de 6 dígitos e dispositivos confiáveis com validade de 30 dias.</div>
+        <div class="module-tags">
+          <span class="tag tag-green">OAuth2</span>
+          <span class="tag tag-green">JWT</span>
+          <span class="tag tag-green">2FA OTP</span>
+        </div>
+      </div>
+
+      <div class="module-card" style="--accent: var(--blue)">
+        <div class="module-icon">⚡</div>
+        <div class="module-name">PIX Completo</div>
+        <div class="module-desc">Registro de chaves (CPF, CNPJ, e-mail, telefone, aleatória), DICT simulado, QR Code EMV, PIX Saque, PIX Troco, agendamento e devolução.</div>
+        <div class="module-tags">
+          <span class="tag tag-blue">DICT simulado</span>
+          <span class="tag tag-blue">EMV QR</span>
+          <span class="tag tag-blue">Devolução</span>
+        </div>
+      </div>
+
+      <div class="module-card" style="--accent: var(--amber)">
+        <div class="module-icon">💳</div>
+        <div class="module-name">Cartões</div>
+        <div class="module-desc">Débito e crédito com número e CVV criptografados em AES-256. Fatura mensal, parcelamento com Tabela Price, cashback, chargeback e cartão virtual.</div>
+        <div class="module-tags">
+          <span class="tag tag-amber">AES-256</span>
+          <span class="tag tag-amber">Tabela Price</span>
+          <span class="tag tag-amber">Cashback</span>
+        </div>
+      </div>
+
+      <div class="module-card" style="--accent: var(--purple)">
+        <div class="module-icon">📈</div>
+        <div class="module-name">Investimentos</div>
+        <div class="module-desc">Catálogo com CDB 120% CDI, LCI, LCA e Tesouro. Aplicação, resgate e rendimento diário automático calculado sobre 252 dias úteis por ano.</div>
+        <div class="module-tags">
+          <span class="tag tag-green">CDI</span>
+          <span class="tag tag-green">Tesouro</span>
+          <span class="tag tag-green">Rendimento diário</span>
+        </div>
+      </div>
+
+      <div class="module-card" style="--accent: var(--red)">
+        <div class="module-icon">🏦</div>
+        <div class="module-name">Compliance KYC/AML</div>
+        <div class="module-desc">Validação de CPF e CNPJ com dígitos verificadores reais. Flagging automático de transações acima do limiar COAF (R$10.000). Score de crédito interno.</div>
+        <div class="module-tags">
+          <span class="tag tag-amber">BACEN simulado</span>
+          <span class="tag tag-amber">COAF</span>
+          <span class="tag tag-amber">KYC</span>
+        </div>
+      </div>
+
+      <div class="module-card" style="--accent: var(--blue)">
+        <div class="module-icon">📊</div>
+        <div class="module-name">Observabilidade</div>
+        <div class="module-desc">Spring Actuator + Micrometer + Prometheus com scraping configurado. Grafana com datasource provisionado automaticamente. Log de auditoria em banco.</div>
+        <div class="module-tags">
+          <span class="tag tag-blue">Prometheus</span>
+          <span class="tag tag-blue">Grafana</span>
+          <span class="tag tag-blue">Auditoria</span>
+        </div>
+      </div>
+
+      <div class="module-card" style="--accent: var(--green)">
+        <div class="module-icon">💰</div>
+        <div class="module-name">Crédito Pessoal</div>
+        <div class="module-desc">Simulação com Tabela Price, taxa de juros baseada em score (1,5% a 6,0%), aprovação automática e disbursamento direto para a conta corrente.</div>
+        <div class="module-tags">
+          <span class="tag tag-green">Tabela Price</span>
+          <span class="tag tag-green">Score</span>
+        </div>
+      </div>
+
+      <div class="module-card" style="--accent: var(--amber)">
+        <div class="module-icon">📄</div>
+        <div class="module-name">Boleto</div>
+        <div class="module-desc">Emissão com código de barras no padrão FEBRABAN simulado, pagamento com validação de vencimento e expiração automática via cron.</div>
+        <div class="module-tags">
+          <span class="tag tag-amber">FEBRABAN</span>
+          <span class="tag tag-amber">Cron</span>
+        </div>
+      </div>
+
+      <div class="module-card" style="--accent: var(--purple)">
+        <div class="module-icon">🔗</div>
+        <div class="module-name">Open Finance</div>
+        <div class="module-desc">Modelo de consentimento completo: criação, autorização e revogação. Base para integrações entre instituições financeiras seguindo o padrão do Bacen.</div>
+        <div class="module-tags">
+          <span class="tag tag-blue">Consentimento</span>
+          <span class="tag tag-blue">Open Finance</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <div class="section-label">// tecnologias</div>
+    <h2 class="section-title">Stack técnica</h2>
+    <p class="section-desc">Escolhas deliberadas — cada tecnologia resolve um problema específico.</p>
+
+    <div class="stack-grid">
+      <div class="stack-item">
+        <div class="stack-dot" style="background:var(--green)"></div>
+        <div>
+          <div class="stack-name">Java 21 + Spring Boot 3.5</div>
+          <div class="stack-role">Runtime & Framework principal</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-dot" style="background:var(--amber)"></div>
+        <div>
+          <div class="stack-name">Spring Security + JWT HMAC256</div>
+          <div class="stack-role">Autenticação & autorização</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-dot" style="background:var(--blue)"></div>
+        <div>
+          <div class="stack-name">MySQL 8 + JPA + Flyway</div>
+          <div class="stack-role">Persistência & migrações versionadas</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-dot" style="background:var(--purple)"></div>
+        <div>
+          <div class="stack-name">RabbitMQ</div>
+          <div class="stack-role">Mensageria assíncrona (PIX, transferências)</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-dot" style="background:var(--green)"></div>
+        <div>
+          <div class="stack-name">Prometheus + Grafana</div>
+          <div class="stack-role">Métricas & dashboards de observabilidade</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-dot" style="background:var(--amber)"></div>
+        <div>
+          <div class="stack-name">Springdoc OpenAPI</div>
+          <div class="stack-role">Documentação automática via Swagger UI</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-dot" style="background:var(--blue)"></div>
+        <div>
+          <div class="stack-name">Docker Compose</div>
+          <div class="stack-role">Orquestração local de todos os serviços</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-dot" style="background:var(--red)"></div>
+        <div>
+          <div class="stack-name">AES-256 + BCrypt</div>
+          <div class="stack-role">Criptografia de dados sensíveis (cartões)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARQUITETURA -->
+  <section id="arquitetura">
+    <div class="section-label">// estrutura</div>
+    <h2 class="section-title">Arquitetura modular<br>por domínio</h2>
+    <p class="section-desc">Cada módulo é autônomo com sua própria estrutura interna. Sem acoplamento entre domínios via herança ou herança de repositório.</p>
+
+    <div class="arch-box">
+<span class="highlight">com.spring.bank</span>
+<span class="dim">├──</span> <span class="accent">account/</span>       <span class="dim">contas, abertura, movimentação, extrato</span>
+<span class="dim">├──</span> <span class="accent">auth/</span>          <span class="dim">OAuth2, JWT, clients, token lifecycle</span>
+<span class="dim">├──</span> <span class="accent">audit/</span>         <span class="dim">log imutável de ações críticas em banco</span>
+<span class="dim">├──</span> <span class="accent">boleto/</span>        <span class="dim">emissão FEBRABAN, pagamento, expiração</span>
+<span class="dim">├──</span> <span class="accent">card/</span>          <span class="dim">cartões, fatura, parcelamento, cashback, chargeback</span>
+<span class="dim">├──</span> <span class="accent">compliance/</span>    <span class="dim">KYC, AML, score de crédito interno</span>
+<span class="dim">├──</span> <span class="accent">investment/</span>    <span class="dim">aplicação, resgate, catálogo, rendimento diário</span>
+<span class="dim">├──</span> <span class="accent">limit/</span>         <span class="dim">limites operacionais por usuário</span>
+<span class="dim">├──</span> <span class="accent">loan/</span>          <span class="dim">simulação Tabela Price, aprovação, parcelas</span>
+<span class="dim">├──</span> <span class="accent">pix/</span>           <span class="dim">chaves, DICT, QR Code EMV, saque, devolução</span>
+<span class="dim">├──</span> <span class="accent">openfinance/</span>   <span class="dim">modelo de consentimento Open Finance</span>
+<span class="dim">├──</span> <span class="accent">scheduling/</span>    <span class="dim">pagamentos agendados (PIX, TED, boleto)</span>
+<span class="dim">├──</span> <span class="accent">transaction/</span>   <span class="dim">criação, categorização automática, filtros</span>
+<span class="dim">├──</span> <span class="accent">transfer/</span>      <span class="dim">TED assíncrona via RabbitMQ</span>
+<span class="dim">├──</span> <span class="accent">twofa/</span>         <span class="dim">OTP 6 dígitos, dispositivos confiáveis</span>
+<span class="dim">└──</span> <span class="accent">shared/</span>        <span class="dim">utilitários, exceptions, response wrappers</span>
+    </div>
+  </section>
+
+  <!-- DEPLOY -->
+  <section id="deploy">
+    <div class="section-label">// deploy</div>
+    <h2 class="section-title">Serviços disponíveis<br>com um comando</h2>
+    <p class="section-desc"><code style="font-family:var(--mono);font-size:14px;color:var(--green)">docker compose up</code> sobe toda a infraestrutura.</p>
+
+    <div class="services-wrap">
+      <table class="services-table">
+        <thead>
+          <tr>
+            <th>Serviço</th>
+            <th>URL</th>
+            <th>Credenciais</th>
+            <th>Porta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>API REST</td>
+            <td><a href="#">localhost:8000</a></td>
+            <td>—</td>
+            <td><span class="pill">8000</span></td>
+          </tr>
+          <tr>
+            <td>Swagger UI</td>
+            <td><a href="#">localhost:8000/swagger-ui</a></td>
+            <td>Bearer token</td>
+            <td><span class="pill">8000</span></td>
+          </tr>
+          <tr>
+            <td>Prometheus</td>
+            <td><a href="#">localhost:9090</a></td>
+            <td>—</td>
+            <td><span class="pill">9090</span></td>
+          </tr>
+          <tr>
+            <td>Grafana</td>
+            <td><a href="#">localhost:3001</a></td>
+            <td>admin / admin</td>
+            <td><span class="pill">3001</span></td>
+          </tr>
+          <tr>
+            <td>RabbitMQ</td>
+            <td><a href="#">localhost:15672</a></td>
+            <td>guest / guest</td>
+            <td><span class="pill">15672</span></td>
+          </tr>
+          <tr>
+            <td>Mailpit</td>
+            <td><a href="#">localhost:8025</a></td>
+            <td>—</td>
+            <td><span class="pill">8025</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">nex//wallet</div>
+    <p class="footer-text">Feito por <a href="https://github.com/FelipeRodrigues05" style="color:var(--green);text-decoration:none;">@FelipeRodrigues05</a> &mdash; MIT License</p>
+    <div class="footer-links">
+      <a href="https://github.com/FelipeRodrigues05/nexwallet-backend" target="_blank">GitHub</a>
+      <a href="https://github.com/FelipeRodrigues05/nexwallet-backend/blob/development/README.md" target="_blank">README</a>
+      <a href="https://github.com/FelipeRodrigues05/nexwallet-backend/releases" target="_blank">Releases</a>
+    </div>
+  </footer>
+
+</body>
+</html>
