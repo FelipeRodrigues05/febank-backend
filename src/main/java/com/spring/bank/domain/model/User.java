@@ -26,10 +26,8 @@ public class User {
     @Column(unique = true, updatable = false)
     private String document;
 
-    @Column(unique = true)
+    @Column(unique = true, name = "email")
     private String email;
-
-    private String password;
 
     @Enumerated(EnumType.STRING)
     private UserType type;

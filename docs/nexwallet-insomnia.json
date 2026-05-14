@@ -1,0 +1,653 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-04-22T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v9.0.0",
+  "resources": [
+    {
+      "_id": "wrk_nexwallet",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "nexwallet API",
+      "description": "Spring Boot banking backend",
+      "scope": "collection",
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_nexwallet",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:8000",
+        "client_id": "nexwallet-app",
+        "client_secret": "nexwallet-secret"
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "fld_oauth",
+      "_type": "request_group",
+      "parentId": "wrk_nexwallet",
+      "name": "OAuth2",
+      "metaSortKey": -1100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_get_token",
+      "_type": "request",
+      "parentId": "fld_oauth",
+      "name": "Get Token (manual)",
+      "method": "POST",
+      "url": "{{ base_url }}/oauth/token",
+      "body": {
+        "mimeType": "application/x-www-form-urlencoded",
+        "params": [
+          { "name": "client_id", "value": "{{ client_id }}" },
+          { "name": "client_secret", "value": "{{ client_secret }}" },
+          { "name": "grant_type", "value": "client_credentials" }
+        ]
+      },
+      "headers": [],
+      "authentication": {},
+      "parameters": [],
+      "metaSortKey": -100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_create_client",
+      "_type": "request",
+      "parentId": "fld_oauth",
+      "name": "Create Client",
+      "method": "POST",
+      "url": "{{ base_url }}/clients",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"clientId\": \"meu-app\",\n  \"name\": \"Meu Aplicativo\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {},
+      "parameters": [],
+      "metaSortKey": -99,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "fld_user",
+      "_type": "request_group",
+      "parentId": "wrk_nexwallet",
+      "name": "User",
+      "metaSortKey": -1000,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_create_user",
+      "_type": "request",
+      "parentId": "fld_user",
+      "name": "Create User",
+      "method": "POST",
+      "url": "{{ base_url }}/user",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Joao Silva\",\n  \"document\": \"12345678901\",\n  \"email\": \"joao@email.com\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_update_user",
+      "_type": "request",
+      "parentId": "fld_user",
+      "name": "Update User",
+      "method": "PUT",
+      "url": "{{ base_url }}/user/update/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Joao Silva Atualizado\",\n  \"email\": \"novo@email.com\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -99,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "fld_account",
+      "_type": "request_group",
+      "parentId": "wrk_nexwallet",
+      "name": "Account",
+      "metaSortKey": -900,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_open_account",
+      "_type": "request",
+      "parentId": "fld_account",
+      "name": "Open Account",
+      "method": "POST",
+      "url": "{{ base_url }}/account/open",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"userId\": 1,\n  \"type\": \"CHECKING\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_get_account",
+      "_type": "request",
+      "parentId": "fld_account",
+      "name": "Get Account by Number",
+      "method": "GET",
+      "url": "{{ base_url }}/account/10000001",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -99,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_deposit",
+      "_type": "request",
+      "parentId": "fld_account",
+      "name": "Deposit (Checking -> Savings)",
+      "method": "POST",
+      "url": "{{ base_url }}/account/deposit",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"userId\": 1,\n  \"amount\": 500.00\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -98,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_withdraw",
+      "_type": "request",
+      "parentId": "fld_account",
+      "name": "Withdraw (Savings -> Checking)",
+      "method": "POST",
+      "url": "{{ base_url }}/account/withdraw",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"userId\": 1,\n  \"amount\": 200.00\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -97,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "fld_card",
+      "_type": "request_group",
+      "parentId": "wrk_nexwallet",
+      "name": "Card",
+      "metaSortKey": -800,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_create_card",
+      "_type": "request",
+      "parentId": "fld_card",
+      "name": "Create Card",
+      "method": "POST",
+      "url": "{{ base_url }}/card",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"accountId\": 1,\n  \"cardType\": \"DEBIT\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_list_cards",
+      "_type": "request",
+      "parentId": "fld_card",
+      "name": "List Cards",
+      "method": "GET",
+      "url": "{{ base_url }}/card/1",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -99,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_purchase",
+      "_type": "request",
+      "parentId": "fld_card",
+      "name": "Purchase",
+      "method": "POST",
+      "url": "{{ base_url }}/card/purchase",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"cardNumber\": \"9900000000004242\",\n  \"cvv\": \"123\",\n  \"amount\": 149.90,\n  \"cardType\": \"DEBIT\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -98,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "fld_transaction",
+      "_type": "request_group",
+      "parentId": "wrk_nexwallet",
+      "name": "Transaction",
+      "metaSortKey": -700,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_list_transactions",
+      "_type": "request",
+      "parentId": "fld_transaction",
+      "name": "List Transactions by Account",
+      "method": "GET",
+      "url": "{{ base_url }}/transaction/account/1",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "fld_investment",
+      "_type": "request_group",
+      "parentId": "wrk_nexwallet",
+      "name": "Investment",
+      "metaSortKey": -600,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_apply_investment",
+      "_type": "request",
+      "parentId": "fld_investment",
+      "name": "Apply Investment",
+      "method": "POST",
+      "url": "{{ base_url }}/investment/apply",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"userId\": 1,\n  \"amount\": 1000.00\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_redeem_investment",
+      "_type": "request",
+      "parentId": "fld_investment",
+      "name": "Redeem Investment",
+      "method": "POST",
+      "url": "{{ base_url }}/investment/redeem",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"userId\": 1,\n  \"amount\": 500.00\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -99,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "fld_transfer",
+      "_type": "request_group",
+      "parentId": "wrk_nexwallet",
+      "name": "Transfer",
+      "metaSortKey": -500,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_create_transfer",
+      "_type": "request",
+      "parentId": "fld_transfer",
+      "name": "Create Transfer",
+      "method": "POST",
+      "url": "{{ base_url }}/transfer/create",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fromAccount\": 1,\n  \"toAccount\": 2,\n  \"amount\": 300.00,\n  \"description\": \"Divisao da conta\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "fld_savings_box",
+      "_type": "request_group",
+      "parentId": "wrk_nexwallet",
+      "name": "Savings Box",
+      "metaSortKey": -400,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_create_savings_box",
+      "_type": "request",
+      "parentId": "fld_savings_box",
+      "name": "Create Savings Box",
+      "method": "POST",
+      "url": "{{ base_url }}/savings-box",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"accountId\": 1,\n  \"name\": \"Viagem Europa\",\n  \"imageUrl\": \"https://example.com/europa.jpg\",\n  \"initialAmount\": 200.00\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_list_savings_boxes",
+      "_type": "request",
+      "parentId": "fld_savings_box",
+      "name": "List Savings Boxes by Account",
+      "method": "GET",
+      "url": "{{ base_url }}/savings-box/account/1",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -99,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_get_savings_box",
+      "_type": "request",
+      "parentId": "fld_savings_box",
+      "name": "Get Savings Box by ID",
+      "method": "GET",
+      "url": "{{ base_url }}/savings-box/1",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -98,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_savings_box_deposit",
+      "_type": "request",
+      "parentId": "fld_savings_box",
+      "name": "Savings Box Deposit",
+      "method": "POST",
+      "url": "{{ base_url }}/savings-box/1/deposit",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"amount\": 100.00\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -97,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_savings_box_withdraw",
+      "_type": "request",
+      "parentId": "fld_savings_box",
+      "name": "Savings Box Withdraw",
+      "method": "POST",
+      "url": "{{ base_url }}/savings-box/1/withdraw",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"amount\": 50.00\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -96,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "fld_pix",
+      "_type": "request_group",
+      "parentId": "wrk_nexwallet",
+      "name": "PIX",
+      "metaSortKey": -300,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_register_pix_key",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "Register PIX Key",
+      "method": "POST",
+      "url": "{{ base_url }}/pix/keys",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"accountId\": 1,\n  \"type\": \"EMAIL\",\n  \"key\": \"joao@email.com\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_list_pix_keys",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "List PIX Keys by Account",
+      "method": "GET",
+      "url": "{{ base_url }}/pix/keys/account/1",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -99,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_delete_pix_key",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "Delete PIX Key",
+      "method": "DELETE",
+      "url": "{{ base_url }}/pix/keys/REPLACE_WITH_PIX_KEY_UUID",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -98,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_pix_transfer",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "PIX Transfer",
+      "method": "POST",
+      "url": "{{ base_url }}/pix/transfer",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fromAccountId\": 1,\n  \"pixKey\": \"joao@email.com\",\n  \"amount\": 150.00,\n  \"description\": \"Pagamento almoco\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -97,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_add_pix_contact",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "Add PIX Contact",
+      "method": "POST",
+      "url": "{{ base_url }}/pix/contacts",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"accountId\": 1,\n  \"alias\": \"João\",\n  \"pixKey\": \"joao@email.com\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -96,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_list_pix_contacts",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "List PIX Contacts",
+      "method": "GET",
+      "url": "{{ base_url }}/pix/contacts/account/1",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -95,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_update_pix_contact",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "Update PIX Contact Alias",
+      "method": "PATCH",
+      "url": "{{ base_url }}/pix/contacts/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"alias\": \"João Silva\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [{ "name": "accountId", "value": "1" }],
+      "metaSortKey": -94,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_delete_pix_contact",
+      "_type": "request",
+      "parentId": "fld_pix",
+      "name": "Delete PIX Contact",
+      "method": "DELETE",
+      "url": "{{ base_url }}/pix/contacts/1",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [{ "name": "accountId", "value": "1" }],
+      "metaSortKey": -93,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "fld_card_bill",
+      "_type": "request_group",
+      "parentId": "wrk_nexwallet",
+      "name": "Card Bill",
+      "metaSortKey": -200,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_current_bill",
+      "_type": "request",
+      "parentId": "fld_card_bill",
+      "name": "Get Current Bill",
+      "method": "GET",
+      "url": "{{ base_url }}/card-bill/REPLACE_WITH_CARD_UUID/current",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -100,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_bill_history",
+      "_type": "request",
+      "parentId": "fld_card_bill",
+      "name": "Get Bill History",
+      "method": "GET",
+      "url": "{{ base_url }}/card-bill/REPLACE_WITH_CARD_UUID/history",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -99,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    },
+    {
+      "_id": "req_pay_bill",
+      "_type": "request",
+      "parentId": "fld_card_bill",
+      "name": "Pay Bill",
+      "method": "POST",
+      "url": "{{ base_url }}/card-bill/1/pay",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"accountId\": 1\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "oauth2", "grantType": "client_credentials", "accessTokenUrl": "{{ base_url }}/oauth/token", "clientId": "{{ client_id }}", "clientSecret": "{{ client_secret }}" },
+      "parameters": [],
+      "metaSortKey": -98,
+      "modified": 1745280000000,
+      "created": 1745280000000
+    }
+  ]
+}

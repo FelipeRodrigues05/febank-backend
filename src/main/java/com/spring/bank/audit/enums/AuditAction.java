@@ -1,0 +1,20 @@
+package com.spring.bank.audit.enums;
+
+public enum AuditAction {
+    USER_LOGIN,
+    USER_REGISTER,
+    ACCOUNT_OPEN,
+    DEPOSIT,
+    WITHDRAW,
+    TRANSFER_CREATED,
+    PIX_TRANSFER,
+    CARD_PURCHASE,
+    CARD_BILL_PAID,
+    INVESTMENT_APPLIED,
+    INVESTMENT_REDEEMED,
+    LOAN_APPLIED,
+    BOLETO_PAID,
+    LIMIT_UPDATED,
+    TWO_FA_ENABLED,
+    SCHEDULED_PAYMENT_CREATED
+}

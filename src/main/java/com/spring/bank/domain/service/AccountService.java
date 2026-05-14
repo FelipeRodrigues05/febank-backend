@@ -1,8 +1,9 @@
 package com.spring.bank.domain.service;
 
 import com.spring.bank.common.exception.AccountNotFoundException;
+import com.spring.bank.common.exception.AccountTypeAlreadyExistsException;
 import com.spring.bank.common.exception.InsufficientFundsException;
-import com.spring.bank.common.exception.InvalidTransferAccountTypeException;
+import com.spring.bank.common.exception.InvalidAccountException;
 import com.spring.bank.common.utils.AccountNumberGenerator;
 import com.spring.bank.domain.dto.account.DepositDTO;
 import com.spring.bank.domain.dto.account.OpenAccountDTO;
@@ -16,6 +17,8 @@ import com.spring.bank.domain.model.User;
 import com.spring.bank.domain.repository.AccountRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,6 +26,8 @@ import java.math.BigDecimal;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
+
+    private static final Logger log = LoggerFactory.getLogger(AccountService.class);
 
     private final AccountRepository accountRepository;
     private final AccountNumberGenerator accountNumberGenerator;
@@ -32,6 +37,12 @@ public class AccountService {
     public Account openAccount(OpenAccountDTO data) {
         User user = this.userService.getById(data.userId());
 
+        if (accountRepository.existsByUserIdAndType(user.getId(), data.type())) {
+            throw new AccountTypeAlreadyExistsException(
+                    String.format("User already has a %s account", data.type())
+            );
+        }
+
         Account account = new Account();
         account.setBalance(BigDecimal.ZERO);
         account.setUser(user);
@@ -39,69 +50,81 @@ public class AccountService {
         account.setStatus(AccountStatusEnum.ACTIVE);
 
         String generatedNumber;
-
         do {
             generatedNumber = accountNumberGenerator.generateAccount();
         } while (accountRepository.existsByNumber(generatedNumber));
 
         account.setNumber(generatedNumber);
 
-        return this.accountRepository.save(account);
+        Account saved = this.accountRepository.save(account);
+        log.info("Account opened: type={} userId={} accountId={}", data.type(), data.userId(), saved.getId());
+        return saved;
     }
 
     @Transactional
     public Account deposit(DepositDTO data) throws AccountNotFoundException {
         Account checkingAccount = this.getFirstByUser(data.userId(), AccountTypeEnum.CHECKING);
-        Account savingsAccount = this.getFirstByUser(data.userId(), AccountTypeEnum.SAVINGS);
+        Account savingsAccount  = this.getFirstByUser(data.userId(), AccountTypeEnum.SAVINGS);
+
+        requireActive(checkingAccount, "Checking account is not active.");
+        requireActive(savingsAccount, "Savings account is not active.");
 
         if (checkingAccount.getBalance().compareTo(data.amount()) < 0) {
             throw new InsufficientFundsException("Insufficient balance for deposit.");
         }
 
-        checkingAccount.setBalance(checkingAccount.getBalance().subtract(data.amount()));
-        savingsAccount.setBalance(savingsAccount.getBalance().add(data.amount()));
-
+        this.transactionService.create(
+                new CreateTransactionDTO(checkingAccount, TransactionTypeEnum.DEBIT, data.amount(), "TRANSFER TO SAVINGS")
+        );
         this.transactionService.create(
                 new CreateTransactionDTO(savingsAccount, TransactionTypeEnum.DEPOSIT, data.amount(), "DEPOSIT TO SAVING ACCOUNT")
         );
 
-        this.accountRepository.save(checkingAccount);
-        return this.accountRepository.save(savingsAccount);
+        log.info("Deposit queued: userId={} amount={}", data.userId(), data.amount());
+        return savingsAccount;
     }
 
     @Transactional
     public Account withdraw(WithdrawDTO data) throws AccountNotFoundException, InsufficientFundsException {
         Account checkingAccount = this.getFirstByUser(data.userId(), AccountTypeEnum.CHECKING);
-        Account savingsAccount = this.getFirstByUser(data.userId(), AccountTypeEnum.SAVINGS);
+        Account savingsAccount  = this.getFirstByUser(data.userId(), AccountTypeEnum.SAVINGS);
+
+        requireActive(checkingAccount, "Checking account is not active.");
+        requireActive(savingsAccount, "Savings account is not active.");
 
         if (savingsAccount.getBalance().compareTo(data.amount()) < 0) {
             throw new InsufficientFundsException("Insufficient balance for withdrawal.");
         }
 
-        checkingAccount.setBalance(checkingAccount.getBalance().add(data.amount()));
-        savingsAccount.setBalance(savingsAccount.getBalance().subtract(data.amount()));
-
         this.transactionService.create(
-                new CreateTransactionDTO(savingsAccount, TransactionTypeEnum.WITHDRAW, data.amount(),"WITHDRAW TO CHECKING ACCOUNT")
+                new CreateTransactionDTO(savingsAccount, TransactionTypeEnum.WITHDRAW, data.amount(), "WITHDRAW TO CHECKING ACCOUNT")
+        );
+        this.transactionService.create(
+                new CreateTransactionDTO(checkingAccount, TransactionTypeEnum.CREDIT, data.amount(), "TRANSFER FROM SAVINGS")
         );
 
-        this.accountRepository.save(checkingAccount);
-        return this.accountRepository.save(savingsAccount);
+        log.info("Withdraw queued: userId={} amount={}", data.userId(), data.amount());
+        return checkingAccount;
     }
 
     public void addFunds(Long accountId, BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
         Account account = this.getById(accountId);
-
         account.setBalance(account.getBalance().add(amount));
-
         this.accountRepository.save(account);
     }
 
     public void subtractFunds(Long accountId, BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
         Account account = this.getById(accountId);
-
+        if (account.getBalance().compareTo(amount) < 0) {
+            throw new InsufficientFundsException("Insufficient funds in account");
+        }
         account.setBalance(account.getBalance().subtract(amount));
-
         this.accountRepository.save(account);
     }
 
@@ -117,7 +140,15 @@ public class AccountService {
         ));
     }
 
-    public Account getFirstByUser(Long userId, AccountTypeEnum type) {
-        return this.accountRepository.findFirstByUserIdAndType(userId, type).orElseThrow(() -> new RuntimeException("No accounts found for this user"));
+    public Account getFirstByUser(Long userId, AccountTypeEnum type) throws AccountNotFoundException {
+        return this.accountRepository.findFirstByUserIdAndType(userId, type).orElseThrow(() -> new AccountNotFoundException(
+                String.format("No %s account found for user %s", type, userId)
+        ));
+    }
+
+    private void requireActive(Account account, String message) {
+        if (account.getStatus() != AccountStatusEnum.ACTIVE) {
+            throw new InvalidAccountException(message);
+        }
     }
 }

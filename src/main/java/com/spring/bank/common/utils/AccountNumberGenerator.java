@@ -2,10 +2,11 @@ package com.spring.bank.common.utils;
 
 import org.springframework.stereotype.Component;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 @Component
 public class AccountNumberGenerator {
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     public String generateAccount() {
         String accountNumber = generateRandomNumber();
@@ -17,11 +18,10 @@ public class AccountNumberGenerator {
     private String generateRandomNumber() {
         int length = 8;
 
-        Random random = new Random();
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < length; i++) {
-            sb.append(random.nextInt(10));
+            sb.append(SECURE_RANDOM.nextInt(10));
         }
 
         return sb.toString();

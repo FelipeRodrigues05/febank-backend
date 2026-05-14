@@ -1,5 +1,6 @@
 package com.spring.bank.domain.repository;
 
+import com.spring.bank.domain.enums.account.AccountStatusEnum;
 import com.spring.bank.domain.enums.account.AccountTypeEnum;
 import com.spring.bank.domain.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,11 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     boolean existsByNumber(String number);
 
+    boolean existsByUserIdAndType(Long userId, AccountTypeEnum type);
+
     Optional<Account> findFirstByUserIdAndType(Long userId, AccountTypeEnum type);
+
     Optional<List<Account>> findAllByType(AccountTypeEnum type);
+
+    List<Account> findAllByTypeAndStatus(AccountTypeEnum type, AccountStatusEnum status);
 }
